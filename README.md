@@ -19,7 +19,8 @@
 ## Adding a third party submodule
 
 After forking the third party repository into the Human-Compatible organisation
-add the submodule to the monorepo. Below is an example achieving this for the cal.com repository:
+add the submodule to the monorepo. Below is an example achieving this for the
+`cal.com` repository:
 
 ```bash
 git submodule add -b human-compatible git@github.com:Human-Compatible/cal.com.git third_party/cal.com
