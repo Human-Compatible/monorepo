@@ -5,3 +5,7 @@
 	path = third_party/cal.com
 	url = git@github.com:Human-Compatible/cal.com.git
 	branch = human-compatible
+[submodule "third_party/lexicon"]
+	path = third_party/lexicon
+	url = git@github.com:Human-Compatible/lexicon.git
+	branch = human-compatible
