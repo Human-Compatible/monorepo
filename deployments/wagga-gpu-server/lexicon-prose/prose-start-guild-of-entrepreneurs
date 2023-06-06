@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -o allexport; source .env; source .env.guild-of-entrepreneurs; set +o allexport
+
+cd $PROSE_DIR
+exec $NODE_PATH lib/index.js
