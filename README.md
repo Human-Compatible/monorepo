@@ -15,10 +15,9 @@
       branch is then pointed to by the submodule within the monorepo.
     - The `main` / `master` branch of the forked repo is to have no extra
       commits with respect to the upstream repository.
-  - If you have a private `third_party` repository, or a personal `third_party`
-    repository that is not able to be released publicly, then please include
-    these within the `private` repo, and follow the respective instructions
-    within there.
+  - If you have a private `third_party` repository, or a personal repository
+    that is not able to be released publicly, then please include these within
+    the `private` repo, and follow the respective instructions within there.
 
 ## Adding a third party submodule
 
