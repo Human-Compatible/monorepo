@@ -1,3 +1,7 @@
 [submodule "private"]
 	path = private
 	url = git@github.com:Human-Compatible/private.git
+[submodule "third_party/cal.com"]
+	path = third_party/cal.com
+	url = git@github.com:Human-Compatible/cal.com.git
+	branch = human-compatible
