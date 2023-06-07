@@ -1,0 +1,25 @@
+[tool.isort]
+profile = "black"
+color_output = true
+
+[tool.pyright]
+ignore = ["**/node_modules", "**/__pycache__"]
+typeCheckingMode = "basic"
+
+[tool.pylint.messages-control]
+disable = [
+  "fixme",
+  "line-too-long",
+  "missing-function-docstring",
+  "no-name-in-module",
+  "missing-class-docstring",
+  "too-few-public-methods",
+  "invalid-name",
+  "missing-module-docstring",
+  "no-member",
+  "logging-fstring-interpolation",
+]
+
+[tool.pylint.design]
+max-locals = 25
+max-args = 8
