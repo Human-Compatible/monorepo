@@ -8,10 +8,19 @@ import paths
 
 COMMON_ENVIRONMENT_VARIABLES = {"PROSE_APP_HOSTNAME": "127.0.0.1"}
 
+
 CUSTOM_ENVIRONMENT_VARIABLES = {
+    "GREENHOUSE": {
+        "PROSE_DISCOURSE_HOST": "https://community.thegreenhouse.digital",
+        "PROSE_APP_PORT": "8928",
+    },
     "GUILD_OF_ENTREPRENEURS": {
-        "PROSE_DISCOURSE_HOST": "https://community.guildofentrepreneurs.com",
+        "PROSE_DISCOURSE_HOST": "https://discourse.guildofentrepreneurs.com",
         "PROSE_APP_PORT": "8929",
+    },
+    "ISA": {
+        "PROSE_DISCOURSE_HOST": "https://c.internationalstudentassistance.com",
+        "PROSE_APP_PORT": "8930",
     },
 }
 
