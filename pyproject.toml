@@ -1,25 +1,14 @@
-[tool.isort]
-profile = "black"
-color_output = true
+[tool.poetry]
+name = "humancompatible"
+version = "0.0.0"
+description = ""
+authors = []
+license = "Apache-2.0"
+readme = "README.md"
 
-[tool.pyright]
-ignore = ["**/node_modules", "**/__pycache__"]
-typeCheckingMode = "basic"
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
 
-[tool.pylint.messages-control]
-disable = [
-  "fixme",
-  "line-too-long",
-  "missing-function-docstring",
-  "no-name-in-module",
-  "missing-class-docstring",
-  "too-few-public-methods",
-  "invalid-name",
-  "missing-module-docstring",
-  "no-member",
-  "logging-fstring-interpolation",
-]
-
-[tool.pylint.design]
-max-locals = 25
-max-args = 8
+[build-system]
+requires = ["poetry-core==1.1.0"]
+build-backend = "poetry.core.masonry.api"

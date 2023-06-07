@@ -44,7 +44,7 @@ Git submodules are licensed according to their respective repos.
 Git submodules are used in the following ways:
 
 - Submodules for Human Compatible developed and maintained public libraries are
-  stored under `libraries/[language-name]/[submodule]`.
+  stored under `libs/[submodule]`.
   - All Human Compatible repositories are found at
     `https://github.com/Human-Compatible/[submodule]` with `main` as the
     default branch.
