@@ -15,8 +15,8 @@ deployments around the world.
 We are a company of entrepreneurs and software engineers who are a part of the
 story of helping humanity deploy AI safely.
 
-We build and deploy current state of the art in safe AI for **you** and your
-company.
+We build and deploy the current state of the art in safe AI for **you** and
+your company.
 
 We equip and support the entrepreneurs and software engineers of today and the
 future with the skills and tools required to build their own companies, that
