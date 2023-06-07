@@ -1,13 +1,14 @@
 [tool.poetry]
 name = "humancompatible"
-version = "0.0.0"
+version = "0.1.0"
 description = ""
 authors = []
 license = "Apache-2.0"
 readme = "README.md"
+packages = [{ include = "humancompatible", from = "libs" }]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.11"
+python = ">=3.8"
 
 [build-system]
 requires = ["poetry-core==1.1.0"]
