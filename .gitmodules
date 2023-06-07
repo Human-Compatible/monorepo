@@ -10,7 +10,7 @@
 	path = private
 	url = ../private.git
 [submodule "plugins/discourse/magic-matching"]
-	path = plugins/discourse/magic-matching
+	path = libs/magic-matching
 	url = ../magic-matching.git
 [submodule "libraries/python/assistance"]
 	path = libraries/python/assistance
