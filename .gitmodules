@@ -13,5 +13,5 @@
 	path = libs/magic-matching
 	url = ../magic-matching.git
 [submodule "libraries/python/assistance"]
-	path = libraries/python/assistance
+	path = libs/assistance
 	url = ../assistance.git
