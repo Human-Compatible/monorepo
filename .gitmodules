@@ -9,6 +9,3 @@
 [submodule "private"]
 	path = private
 	url = ../private.git
-[submodule "plugins/discourse/magic-matching"]
-	path = libs/magic-matching
-	url = ../magic-matching.git
