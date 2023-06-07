@@ -20,5 +20,5 @@ the current state of the art in safe AI.
 
 We equip and support entrepreneurs and software engineers, of both today and
 the future, with the skills and tools required to build their own companies.
-Equipping them to use the current state of the art in safe AI for their
-products.
+Sending them onwards and upwards building their products on top of the current
+state of the art in safe AI.
