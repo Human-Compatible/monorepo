@@ -5,10 +5,17 @@ description = ""
 authors = []
 license = "Apache-2.0"
 readme = "README.md"
-packages = [{ include = "humancompatible", from = "libs" }]
+
+[[tool.poetry.packages]]
+include = "humancompatible"
+from = "libs"
 
 [tool.poetry.dependencies]
 python = ">=3.8"
+
+[tool.poetry.dependencies.assistance]
+path = "libs/assistance"
+develop = true
 
 [build-system]
 requires = ["poetry-core==1.1.0"]
