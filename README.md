@@ -2,7 +2,19 @@
 
 [What we stand for goes here]
 
-## About this monorepo
+## Why a monorepo?
+
+See the following for why an organisation might want to organise their code as
+as monorepo:
+
+https://monorepo.tools/
+
+In practice, so as to be more compatible with what open source contributors
+generally expect, this is a monorepo which contains within it git submodules.
+This makes it not a "pure" monorepo. But, nevertheless, it should manage to
+achieve the best of both worlds.
+
+### Specifics
 
 The goal of this public monorepository is to provide a single integration
 repository. With the following benefits:
