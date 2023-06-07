@@ -5,6 +5,7 @@ import os
 
 import paths
 
+PROSE_DIR = paths.THIRD_PARTY / "lexicon" / "api"
 
 COMMON_ENVIRONMENT_VARIABLES = {"PROSE_APP_HOSTNAME": "127.0.0.1"}
 
@@ -38,7 +39,7 @@ def main():
 
     env.update(CUSTOM_ENVIRONMENT_VARIABLES[prose_config])
 
-    subprocess.check_call([paths.NODE, "lib/index.js"], cwd=paths.PROSE, env=env)
+    subprocess.check_call([paths.NODE, "lib/index.js"], cwd=PROSE_DIR, env=env)
 
 
 if __name__ == "__main__":
