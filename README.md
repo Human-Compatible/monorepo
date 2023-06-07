@@ -18,7 +18,7 @@ story of helping humanity deploy AI safely.
 We build and deploy the current state of the art in safe AI for you and your
 company.
 
-We equip and support the entrepreneurs and software engineers, of both today
+We equip and support entrepreneurs and software engineers, of both today
 and the future, with the skills and tools required to build their own
 companies. Equipping them to use the current state of the art in safe AI for
 their products.
