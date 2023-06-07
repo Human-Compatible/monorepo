@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "assistance"
+version = "0.1.1"
+description = ""
+authors = []
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+
+[build-system]
+requires = ["poetry-core==1.1.0"]
+build-backend = "poetry.core.masonry.api"
