@@ -1,8 +1,11 @@
 [submodule "third_party/cal.com"]
 	path = third-party/cal.com
-	url = git@github.com:Human-Compatible/cal.com.git
+	url = ../cal.com.git
 	branch = human-compatible
 [submodule "third_party/lexicon"]
 	path = third-party/lexicon
-	url = git@github.com:Human-Compatible/lexicon.git
+	url = ../lexicon.git
 	branch = human-compatible
+[submodule "private"]
+	path = private
+	url = ../private.git

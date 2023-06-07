@@ -31,18 +31,20 @@ Git submodules are licensed according to their respective repos.
 
 Git submodules are used in the following ways:
 
-- Submodules for Human Compatible developed and maintained libraries are stored
-  under `libraries/[language-name]/[submodule]`.
+- Submodules for Human Compatible developed and maintained public libraries are
+  stored under `libraries/[language-name]/[submodule]`.
   - All Human Compatible repositories are found at
     `https://github.com/Human-Compatible/[submodule]` with `main` as the
     default branch.
-  - They can be either `private` or `public`.
 - Submodules for third party packages are within `third-party/[submodule]`
   - All third party repositories are forked into the Human-Compatible
     organisation and a branch called `human-compatible` is created. This
     branch is then pointed to by the submodule within the monorepo.
   - The `main` / `master` branch of the forked repo is to have no extra
     commits with respect to the upstream repository.
+- Any submodule which must itself be private is instead to be included within
+  the `private` submodule which points to the
+  `https://github.com/Human-Compatible/private` repo.
 
 ### Adding a third party submodule
 
@@ -51,5 +53,8 @@ add the submodule to the monorepo. Below is an example achieving this for the
 `cal.com` repository:
 
 ```bash
-git submodule add -b human-compatible git@github.com:Human-Compatible/cal.com.git third-party/cal.com
+git submodule add -b human-compatible ../cal.com.git third-party/cal.com
 ```
+
+Make sure to use a "relative URL" to the submodule, so that when someone is
+cloning it they are free to use either https or ssh.
