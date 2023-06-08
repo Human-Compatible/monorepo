@@ -6,12 +6,8 @@ authors = []
 license = "Apache-2.0"
 readme = "README.md"
 
-[[tool.poetry.packages]]
-include = "humancompatible"
-from = "libs"
-
 [tool.poetry.dependencies]
-python = ">=3.8"
+python = "~3.11"
 
 [tool.poetry.dependencies.assistance]
 path = "libs/assistance"

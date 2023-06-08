@@ -22,23 +22,6 @@ test = ["anyio[trio]", "coverage[toml] (>=4.5)", "hypothesis (>=4.0)", "mock (>=
 trio = ["trio (<0.22)"]
 
 [[package]]
-name = "assistance"
-version = "0.1.1"
-description = ""
-category = "main"
-optional = false
-  python-versions = ">=3.11"
-files = []
-develop = true
-
-[package.dependencies]
-fastapi = "^0.96.0"
-
-[package.source]
-type = "directory"
-url = "libs/assistance"
-
-[[package]]
 name = "fastapi"
 version = "0.96.0"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -169,5 +152,5 @@ files = [
 
 [metadata]
 lock-version = "2.0"
-python-versions = "~3.11"
-content-hash = "918105a5e4741312583745995a91179228577283e8f9bbc4fac6a5eb6455032d"
+python-versions = ">=3.11"
+content-hash = "6d9348ac2edde337f0a5e22ab7fcfa33b7343867336028f7212ddfc1f4ec6a47"
