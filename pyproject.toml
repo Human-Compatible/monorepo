@@ -13,8 +13,8 @@ python = "~3.11"
 path = "libs/assistance"
 develop = true
 
-[tool.poetry.dependencies.humancomaptible]
-path = "libs/humancomaptible"
+[tool.poetry.dependencies.humancompatible]
+path = "libs/humancompatible"
 develop = true
 
 [build-system]
