@@ -32,14 +32,13 @@ from assistance import _ctx
 from assistance._keys import get_postal_api_key
 from assistance._paths import (
     EMAILS,
-    MONOREPO,
     get_emails_path,
     SYNCED_CONTACT_FORM_RECORDS,
-    CAMPAIGN_DATA,
     SYNCED_STARTED_APPLICATION,
     SYNCED_EOI_RECORDS,
     SYNCED_EMAIL_RECORDS,
     SYNCED_SENT_RECORDS,
+    SYNCED_JIMS_REPO,
 )
 from assistance._progression import (
     get_complete_progression_keys,
@@ -136,7 +135,7 @@ async def _create_and_send_email_with_signature(
     signature_template: str,
     mail_from,
 ):
-    LOGO_PATH = MONOREPO / "images" / "logo.png"
+    LOGO_PATH = SYNCED_JIMS_REPO / "ac-logo.png"
     with open(LOGO_PATH, "rb") as f:
         image = MIMEImage(f.read())
 
@@ -367,9 +366,7 @@ def _update_and_get_unsubscribes():
 
 
 async def _get_email_template_for_user(cfg, user_email_address):
-    complete_progression_keys = await get_complete_progression_keys(
-        "campaign", "jims-ac", user_email_address
-    )
+    complete_progression_keys = await get_complete_progression_keys(user_email_address)
     email_template = get_current_stage_and_task(
         cfg["emails"], complete_progression_keys
     )
@@ -384,7 +381,7 @@ async def _get_email_template_for_user(cfg, user_email_address):
 
 
 async def _update_progression_for_user(user_email_address: str, key: str):
-    await set_progression_key("campaign", "jims-ac", user_email_address, key)
+    await set_progression_key(user_email_address, key)
 
 
 async def _emails_recently_sent(tolerance=4000):
@@ -400,7 +397,7 @@ async def _emails_recently_sent(tolerance=4000):
 
 async def _get_last_touched():
     last_touched: dict[str, float] = defaultdict(lambda: 0.0)
-    progression_record = (CAMPAIGN_DATA / "jims-ac" / "progression").glob("*/*")
+    progression_record = SYNCED_SENT_RECORDS.glob("*/*")
 
     for record in progression_record:
         last_touched[record.parent.name] = max(

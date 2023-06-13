@@ -13,13 +13,11 @@
 # limitations under the License.
 
 import time
-import pathlib
-from typing import Literal
 
 import aiofiles
 
 from assistance._config import ProgressionItem, get_file_based_mapping
-from assistance._paths import CAMPAIGN_DATA, FORM_DATA
+from assistance._paths import SYNCED_SENT_RECORDS
 
 
 def get_current_stage_and_task(
@@ -34,31 +32,16 @@ def get_current_stage_and_task(
     return None
 
 
-ProgressionType = Literal["campaign", "form"]
-PROGRESSION_TYPE_TO_ROOT: dict[ProgressionType, pathlib.Path] = {
-    "campaign": CAMPAIGN_DATA,
-    "form": FORM_DATA,
-}
-
-
-async def get_complete_progression_keys(
-    progression_type: ProgressionType, progression_name: str, user_email: str
-) -> set[str]:
-    root = PROGRESSION_TYPE_TO_ROOT[progression_type]
-
+async def get_complete_progression_keys(user_email: str) -> set[str]:
     results = await get_file_based_mapping(
-        root / progression_name / "progression", user_email, include_user=False
+        SYNCED_SENT_RECORDS, user_email, include_user=False
     )
 
     return set(results.keys())
 
 
-async def set_progression_key(
-    progression_type: ProgressionType, progression_name: str, user_email: str, key: str
-):
-    root = PROGRESSION_TYPE_TO_ROOT[progression_type]
-
-    path = root / progression_name / "progression" / user_email / key
+async def set_progression_key(user_email: str, key: str):
+    path = SYNCED_SENT_RECORDS / user_email / key
 
     if path.exists():
         raise ValueError("Tried to set a progression key that already exists")
