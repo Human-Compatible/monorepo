@@ -20,7 +20,6 @@ from fastapi import APIRouter, Header, Request
 
 from assistance._config import EMAIL_PRODUCT_ID
 from assistance._keys import get_stripe_webhook_key
-from assistance._logging import log_info
 
 router = APIRouter(prefix="/stripe")
 
@@ -56,5 +55,5 @@ async def handle_stripe(request: Request, stripe_signature: str = Header(None)):
     if event["data"]["object"]["plan"]["product"] != EMAIL_PRODUCT_ID:
         return
 
-    customer_email = event["data"]["object"]["customer_email"]
-    invoice_pdf = event["data"]["object"]["invoice_pdf"]
+    _customer_email = event["data"]["object"]["customer_email"]
+    _invoice_pdf = event["data"]["object"]["invoice_pdf"]

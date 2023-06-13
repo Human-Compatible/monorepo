@@ -16,12 +16,9 @@ import asyncio
 import json
 import logging
 import pathlib
-import time
 
 import aiofiles
 import openai
-from asyncache import cached
-from cachetools import LRUCache
 from tenacity import (
     retry,
     retry_all,
@@ -34,7 +31,7 @@ from tenacity import (
 from assistance import _ctx
 from assistance._logging import log_info
 
-from ._paths import COMPLETIONS, get_completion_cache_path
+from ._paths import get_completion_cache_path
 from ._utilities import get_hash_digest
 
 
@@ -71,8 +68,6 @@ async def _completion_with_back_off(**kwargs):
         pass
 
     log_info(scope, _ctx.pp.pformat(kwargs_for_cache_hash))
-
-    query_timestamp = time.time_ns()
 
     response = await _run_completion(kwargs)
 
@@ -111,7 +106,7 @@ async def _chat_completion_wrapper(**kwargs):
         response = await openai.ChatCompletion.acreate(**kwargs)
     except Exception as e:
         if "This model's maximum context length is" in str(e):
-            raise ValueError("Model maximum reached")
+            raise ValueError("Model maximum reached") from e
 
         raise
 

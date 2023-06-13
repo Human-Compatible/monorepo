@@ -42,6 +42,7 @@ asyncache = "*"
 marko = "*"
 pandas = "*"
 GitPython = "*"
+tomlkit = "*"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"

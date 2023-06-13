@@ -24,8 +24,6 @@ from assistance._paths import (
     CONFIG,
     EMAIL_MAPPING,
     FAQ_DATA,
-    FORM_DATA,
-    FORM_TEMPLATES,
     USER_DETAILS,
 )
 
@@ -130,64 +128,11 @@ class FormConfig(TypedDict):
     field: dict[str, Any]
 
 
-async def load_form_config(name: str) -> FormConfig:
-    async with aiofiles.open(FORM_TEMPLATES / f"{name}.toml", encoding="utf8") as f:
-        form_template = cast(FormConfig, tomllib.loads(await f.read()))
-
-    for item in form_template["progression"]:
-        if "fields_for_completion" not in item:
-            item["fields_for_completion"] = []
-
-        if "attachment_handler" not in item:
-            item["attachment_handler"] = None
-
-        if "always_run_at_least_once" not in item:
-            item["always_run_at_least_once"] = False
-
-    return form_template
-
-
 async def load_faq_data(name: str):
     async with aiofiles.open(FAQ_DATA / f"{name}.toml", encoding="utf8") as f:
         data = cast(FormConfig, tomllib.loads(await f.read()))
 
     return data
-
-
-class FormItem(TypedDict):
-    value: str
-    confirmed: bool
-
-
-async def get_form_entries(form_name: str, user_email: str) -> dict[str, FormItem]:
-    file_contents = await _get_form_data(
-        form_name=form_name, data_type="entries", user_email=user_email
-    )
-
-    del file_contents["empty_files"]
-
-    return file_contents
-
-
-async def save_form_entries(
-    form_name: str, user_email: str, form_entries: dict[str, FormItem]
-):
-    dir = FORM_DATA / form_name / "entries" / user_email
-    dir.mkdir(parents=True, exist_ok=True)
-
-    for key, item in form_entries.items():
-        path = dir / f"{key}.json"
-
-        async with aiofiles.open(path, "w") as f:
-            await f.write(json.dumps(item))
-
-
-async def _get_form_data(form_name: str, data_type: str, user_email: str):
-    results = await get_file_based_mapping(
-        FORM_DATA / form_name / data_type, user_email, include_user=False
-    )
-
-    return results
 
 
 async def get_file_based_mapping(root: pathlib.Path, user: str, include_user=True):

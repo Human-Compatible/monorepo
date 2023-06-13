@@ -59,7 +59,7 @@ def run_stats():
 
         data[key] = column_data
 
-    previous_data = pd.read_csv(stats_path)
+    previous_data = pd.read_csv(stats_path)  # type: ignore
 
     df = pd.DataFrame(data)
     ignore_rows = 2

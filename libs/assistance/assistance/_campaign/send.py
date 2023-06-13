@@ -31,7 +31,7 @@ import pandas as pd
 from assistance import _ctx
 from assistance._keys import get_postal_api_key
 from assistance._paths import (
-    EMAILS,
+    LOCAL_EMAIL_RECORD,
     get_emails_path,
     SYNCED_CONTACT_FORM_RECORDS,
     SYNCED_STARTED_APPLICATION,
@@ -192,7 +192,7 @@ async def _create_and_send_email_with_signature(
 
 async def get_email_segments_and_name_lookup():
     formsite_export_path = SYNCED_STARTED_APPLICATION / "FormSiteExport20230404.csv"
-    applications = pd.read_csv(formsite_export_path)
+    applications = pd.read_csv(formsite_export_path)  # type: ignore
 
     incomplete_applications = _extract_emails(
         {
@@ -316,7 +316,7 @@ def _extract_emails(email_series: Iterable[str]):
 def _update_and_get_unsubscribes():
     receiver = {}
 
-    for path in EMAILS.glob("*/*/*.json"):
+    for path in LOCAL_EMAIL_RECORD.glob("*/*/*.json"):
         with open(path) as f:
             try:
                 receiver[path.stem] = json.load(f)["rcpt_to"]

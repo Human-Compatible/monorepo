@@ -25,7 +25,7 @@ from mailparser_reply import EmailReplyParser
 from assistance import _ctx
 from assistance._config import SUPERVISION_SUBJECT_FLAG
 from assistance._keys import get_postal_api_key
-from assistance._paths import MONOREPO
+from assistance._paths import SYNCED_JIMS_REPO
 from assistance._types import Email
 
 POSTAL_API_KEY = get_postal_api_key()
@@ -43,7 +43,7 @@ Head of Entrepreneurship
 [Linkedin](https://www.linkedin.com/in/alex1carpenter/) | [Twitter](https://twitter.com/Alex1Carpenter)
 """
 
-LOGO_PATH = MONOREPO / "images" / "logo.png"
+LOGO_PATH = SYNCED_JIMS_REPO / "ac-logo.png"
 
 
 async def handle_reply_formatter(email: Email):

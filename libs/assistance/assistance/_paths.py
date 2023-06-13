@@ -34,8 +34,6 @@ USERS = STORE.joinpath("users")
 EMAIL_MAPPING = USERS.joinpath("email-mapping")
 USER_DETAILS = USERS.joinpath("details")
 AGENT_MAPPING = USERS.joinpath("agent-mapping")
-FORM_DATA = USERS.joinpath("forms")
-CAMPAIGN_DATA = USERS.joinpath("campaigns")
 
 SYNCED_JIMS_REPO = REFUGE / "jims"
 SYNCED_RECORDS = SYNCED_JIMS_REPO / "records"
@@ -52,7 +50,7 @@ PROMPTS = LOCAL_RECORDS.joinpath("prompts")
 COMPLETIONS = LOCAL_RECORDS.joinpath("completions")
 ARTICLE_METADATA = LOCAL_RECORDS.joinpath("article-metadata")
 DOWNLOADED_ARTICLES = LOCAL_RECORDS.joinpath("downloaded-articles")
-EMAILS = LOCAL_RECORDS.joinpath("emails")
+LOCAL_EMAIL_RECORD = LOCAL_RECORDS.joinpath("emails")
 POSTAL = LOCAL_RECORDS.joinpath("postal")
 
 COMPLETION_CACHE = LOCAL_RECORDS.joinpath("completion-cache")
@@ -91,7 +89,7 @@ def get_downloaded_article_path(hash_digest: str, create_parent: bool = False):
 
 
 def get_emails_path(hash_digest: str, create_parent: bool = False):
-    path = _get_record_path(EMAILS, hash_digest, create_parent)
+    path = _get_record_path(LOCAL_EMAIL_RECORD, hash_digest, create_parent)
 
     return path
 

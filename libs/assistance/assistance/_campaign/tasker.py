@@ -12,15 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import tomllib
+import json
 import logging
 
 import aiocron
-import logging
-import tomllib
-import json
 
 
-from assistance._paths import MONOREPO
+from assistance._paths import SYNCED_JIMS_REPO
 from assistance._campaign import send
 from assistance._git import push, pull
 
@@ -40,8 +39,8 @@ async def run_campaign():
 
 
 async def _campaign():
-    base_cfg_path = MONOREPO / "shared" / "jims" / "config.toml"
-    campaign_cfg_path = MONOREPO / "shared" / "jims" / "campaign.toml"
+    base_cfg_path = SYNCED_JIMS_REPO / "config.toml"
+    campaign_cfg_path = SYNCED_JIMS_REPO / "campaign.toml"
 
     with open(base_cfg_path, "rb") as f:
         base_cfg = tomllib.load(f)

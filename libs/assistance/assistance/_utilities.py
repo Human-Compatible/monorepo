@@ -43,10 +43,10 @@ def get_cleaned_url(url: str):
     parsed_url = urlparse(replaced_and)
     try:
         cleaned_url = parse_qs(parsed_url.query)["url"][0]
-    except KeyError:
+    except KeyError as e:
         raise ValueError(
             f"URL not found within query:\n{replaced_and}\ngave:\n{parsed_url}"
-        )
+        ) from e
 
     return cleaned_url
 

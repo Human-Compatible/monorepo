@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
 import logging
 
 import aiocron
 import tomlkit
-import json
 
 
-from assistance._paths import EMAILS, MONOREPO, get_emails_path
+from assistance._paths import LOCAL_EMAIL_RECORD, get_emails_path, SYNCED_JIMS_REPO
 from assistance._api.routers.email import _initial_parsing
 from assistance._email.formatter import _get_reply_template
 
@@ -40,7 +40,7 @@ async def run_faq_update():
 
 
 async def _update_faq():
-    faq_path = MONOREPO / "shared" / "jims" / "faqs.toml"
+    faq_path = SYNCED_JIMS_REPO / "faqs.toml"
 
     with open(faq_path) as f:
         faq_data = tomlkit.load(f)
@@ -52,7 +52,7 @@ async def _update_faq():
 
     receiver = {}
 
-    for path in EMAILS.glob("*/*/*.json"):
+    for path in LOCAL_EMAIL_RECORD.glob("*/*/*.json"):
         with open(path) as f:
             try:
                 receiver[path.stem] = json.load(f)["rcpt_to"]
