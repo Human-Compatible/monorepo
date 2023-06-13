@@ -18,18 +18,18 @@ from git.repo import Repo
 from git.util import Actor
 from git.exc import HookExecutionError
 
-from assistance._paths import MONOREPO
+from assistance._paths import SYNCED_JIMS_REPO
 
 
 def pull():
-    repo = Repo(MONOREPO)
+    repo = Repo(SYNCED_JIMS_REPO)
     _recursive_pull(repo)
 
 
 def push(message: str):
     logging.info(f"Creating commits with message: {message}")
 
-    repo = Repo(MONOREPO)
+    repo = Repo(SYNCED_JIMS_REPO)
     _recursive_push(repo, message)
 
 

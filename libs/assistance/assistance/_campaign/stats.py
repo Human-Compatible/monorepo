@@ -17,11 +17,11 @@ from datetime import datetime
 from collections import defaultdict
 import pytz
 import pandas as pd
-from assistance._paths import CAMPAIGN_DATA, MONOREPO
+from assistance._paths import SYNCED_JIMS_REPO, SYNCED_SENT_RECORDS
 
 
 def run_stats():
-    stats_path = MONOREPO / "shared" / "jims" / "campaign-overview.csv"
+    stats_path = SYNCED_JIMS_REPO / "campaign-overview.csv"
 
     progression_timing_data = get_progression_stats()
     counts = defaultdict(lambda: defaultdict(lambda: 0))
@@ -69,7 +69,7 @@ def run_stats():
 
 
 def get_progression_stats():
-    progression_record = (CAMPAIGN_DATA / "jims-ac" / "progression").glob("*/*")
+    progression_record = SYNCED_SENT_RECORDS.glob("*/*")
     progression_timing_data = defaultdict(dict)
 
     for record in progression_record:

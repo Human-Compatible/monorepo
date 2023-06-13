@@ -37,7 +37,8 @@ AGENT_MAPPING = USERS.joinpath("agent-mapping")
 FORM_DATA = USERS.joinpath("forms")
 CAMPAIGN_DATA = USERS.joinpath("campaigns")
 
-SYNCED_RECORDS = REFUGE / "jims" / "records"
+SYNCED_JIMS_REPO = REFUGE / "jims"
+SYNCED_RECORDS = SYNCED_JIMS_REPO / "records"
 SYNCED_EMAIL_RECORDS = SYNCED_RECORDS / "emails"
 SYNCED_EOI_RECORDS = SYNCED_EMAIL_RECORDS / "eoi"
 
