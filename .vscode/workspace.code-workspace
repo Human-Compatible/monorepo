@@ -5,6 +5,9 @@
     },
     {
       "path": "../../../.human-compatible"
+    },
+    {
+      "path": "../../../.assistance"
     }
   ],
   "settings": {

@@ -20,3 +20,32 @@ develop = true
 [build-system]
 requires = ["poetry-core==1.1.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+color_output = true
+known_first_party = ["assistance"]
+
+[tool.pyright]
+ignore = ["**/node_modules", "**/__pycache__"]
+typeCheckingMode = "basic"
+
+[tool.pylint.messages-control]
+disable = [
+  "fixme",
+  "line-too-long",
+  "missing-function-docstring",
+  "no-name-in-module",
+  "missing-class-docstring",
+  "too-few-public-methods",
+  "invalid-name",
+  "missing-module-docstring",
+  "no-member",
+  "logging-fstring-interpolation",
+  "unspecified-encoding",
+  "bare-except",
+]
+
+[tool.pylint.design]
+max-locals = 25
+max-args = 8

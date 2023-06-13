@@ -2,13 +2,61 @@
 name = "assistance"
 version = "0.1.1"
 description = ""
-authors = []
+authors = [
+  "Simon Biggs <simon@humancompatible.co>",
+  "Alex Carpenter <alex@humancompatible.co>",
+]
 license = "Apache-2.0"
 readme = "README.md"
 
+[tool.poetry.scripts]
+assistance = "assistance.__main__:main"
+
 [tool.poetry.dependencies]
 python = "~3.11"
-fastapi = "^0.96.0"
+
+openai = "*"
+beautifulsoup4 = "*"
+
+aiofiles = "*"
+aiohttp = "*"
+fastapi = "*"
+uvicorn = { extras = ["standard"], version = "*" }
+
+typer = "*"
+
+gunicorn = "*"
+stripe = "*"
+tenacity = "*"
+ipykernel = "*"
+google-search-results = "*"
+
+aiocron = "*"
+passporteye = "*"
+mail-parser-reply = "*"
+torch = "*"
+torchvision = "*"
+torchaudio = "*"
+asyncache = "*"
+
+marko = "*"
+pandas = "*"
+
+[tool.poetry.group.dev.dependencies]
+autoflake = "*"
+bandit = "*"
+black = "*"
+docformatter = "*"
+flake8 = "*"
+ipython = "*"
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+pylint = "*"
+pyright = "*"
+pytest = "*"
+pytest-bandit = "*"
+pyupgrade = "*"
 
 [build-system]
 requires = ["poetry-core==1.1.0"]

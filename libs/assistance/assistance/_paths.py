@@ -19,12 +19,14 @@ LIB = pathlib.Path(__file__).parent
 
 STORE = pathlib.Path.home().joinpath(".assistance")
 
-MONOREPO = LIB.parent.parent.parent.parent
-if MONOREPO.name == "monorepo":
-    CONFIG = MONOREPO.joinpath("config")
-else:
-    CONFIG = STORE.joinpath("config")
+MONOREPO = LIB.parent.parent.parent
+PRIVATE = MONOREPO.joinpath("private")
+REFUGE = PRIVATE.joinpath("refuge")
 
+CONFIG = REFUGE.joinpath("config")
+
+if not CONFIG.exists():
+    CONFIG = STORE.joinpath("config")
 
 SECRETS = CONFIG.joinpath("secrets")
 
@@ -35,16 +37,24 @@ AGENT_MAPPING = USERS.joinpath("agent-mapping")
 FORM_DATA = USERS.joinpath("forms")
 CAMPAIGN_DATA = USERS.joinpath("campaigns")
 
-RECORDS = STORE.joinpath("records")
+SYNCED_RECORDS = REFUGE / "jims" / "records"
+SYNCED_EMAIL_RECORDS = SYNCED_RECORDS / "emails"
+SYNCED_EOI_RECORDS = SYNCED_EMAIL_RECORDS / "eoi"
 
-PROMPTS = RECORDS.joinpath("prompts")
-COMPLETIONS = RECORDS.joinpath("completions")
-ARTICLE_METADATA = RECORDS.joinpath("article-metadata")
-DOWNLOADED_ARTICLES = RECORDS.joinpath("downloaded-articles")
-EMAILS = RECORDS.joinpath("emails")
-POSTAL = RECORDS.joinpath("postal")
-CONTACT_FORM = RECORDS.joinpath("contact-form")
-COMPLETION_CACHE = RECORDS.joinpath("completion-cache")
+SYNCED_CONTACT_FORM_RECORDS = SYNCED_EOI_RECORDS / "contact-form-api"
+SYNCED_SENT_RECORDS = SYNCED_EMAIL_RECORDS / "sent"
+SYNCED_STARTED_APPLICATION = SYNCED_EMAIL_RECORDS / "started-application"
+
+LOCAL_RECORDS = STORE.joinpath("records")
+
+PROMPTS = LOCAL_RECORDS.joinpath("prompts")
+COMPLETIONS = LOCAL_RECORDS.joinpath("completions")
+ARTICLE_METADATA = LOCAL_RECORDS.joinpath("article-metadata")
+DOWNLOADED_ARTICLES = LOCAL_RECORDS.joinpath("downloaded-articles")
+EMAILS = LOCAL_RECORDS.joinpath("emails")
+POSTAL = LOCAL_RECORDS.joinpath("postal")
+
+COMPLETION_CACHE = LOCAL_RECORDS.joinpath("completion-cache")
 
 PIPELINES = STORE.joinpath("pipelines")
 
@@ -92,7 +102,7 @@ def get_postal_path(hash_digest: str, create_parent: bool = False):
 
 
 def get_contact_form_path(hash_digest: str, create_parent: bool = False):
-    path = _get_record_path(CONTACT_FORM, hash_digest, create_parent)
+    path = _get_record_path(SYNCED_CONTACT_FORM_RECORDS, hash_digest, create_parent)
 
     return path
 

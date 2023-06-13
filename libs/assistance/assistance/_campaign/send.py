@@ -33,10 +33,13 @@ from assistance._keys import get_postal_api_key
 from assistance._paths import (
     EMAILS,
     MONOREPO,
-    RECORDS,
     get_emails_path,
-    CONTACT_FORM,
+    SYNCED_CONTACT_FORM_RECORDS,
     CAMPAIGN_DATA,
+    SYNCED_STARTED_APPLICATION,
+    SYNCED_EOI_RECORDS,
+    SYNCED_EMAIL_RECORDS,
+    SYNCED_SENT_RECORDS,
 )
 from assistance._progression import (
     get_complete_progression_keys,
@@ -189,7 +192,7 @@ async def _create_and_send_email_with_signature(
 
 
 async def get_email_segments_and_name_lookup():
-    formsite_export_path = RECORDS / "formsite" / "FormSiteExport20230404.csv"
+    formsite_export_path = SYNCED_STARTED_APPLICATION / "FormSiteExport20230404.csv"
     applications = pd.read_csv(formsite_export_path)
 
     incomplete_applications = _extract_emails(
@@ -207,9 +210,7 @@ async def get_email_segments_and_name_lookup():
         .difference({np.NaN})
     )
 
-    eoi_ads_leads_paths = (MONOREPO / "records" / "jims" / "emails" / "eoi").glob(
-        "New Leads Ad_Leads_*.csv"
-    )
+    eoi_ads_leads_paths = SYNCED_EOI_RECORDS.glob("New Leads Ad_Leads_*.csv")
 
     name_lookup = {}
     ads_leads_emails = set()
@@ -226,16 +227,12 @@ async def get_email_segments_and_name_lookup():
 
         ads_leads_emails.update(_extract_emails(eoi_ads_leads["email"]))
 
-    eoi_second_path = (
-        MONOREPO / "records" / "jims" / "emails" / "eoi" / "Contacts_2.csv"
-    )
+    eoi_second_path = SYNCED_EOI_RECORDS / "Contacts_2.csv"
     eoi_second = pd.read_csv(
         eoi_second_path, encoding="utf-8", encoding_errors="ignore"
     )
 
-    eoi_third_path = (
-        MONOREPO / "records" / "jims" / "emails" / "eoi" / "SA Enquiries.xlsx"
-    )
+    eoi_third_path = SYNCED_EOI_RECORDS / "SA Enquiries.xlsx"
     eoi_third = pd.read_excel(eoi_third_path, header=None)
 
     contact_form_entries = _get_contact_form_eois()
@@ -251,7 +248,7 @@ async def get_email_segments_and_name_lookup():
 
     unsubscribe_emails = _update_and_get_unsubscribes()
 
-    bounced = MONOREPO / "records" / "jims" / "emails" / "bounced" / "first-run.csv"
+    bounced = SYNCED_EMAIL_RECORDS / "bounced" / "first-run.csv"
     bounced_emails = _extract_emails(pd.read_csv(bounced)["email"])
 
     emails_to_remove = unsubscribe_emails.union(bounced_emails)
@@ -306,7 +303,7 @@ async def get_email_segments_and_name_lookup():
 def _get_contact_form_eois():
     form_entries = []
 
-    for path in CONTACT_FORM.glob("*/*/*.json"):
+    for path in SYNCED_CONTACT_FORM_RECORDS.glob("*/*/*.json"):
         with open(path) as f:
             form_entries.append(json.load(f))
 
@@ -357,7 +354,7 @@ def _update_and_get_unsubscribes():
         email_address = match.group(0)
         emails_to_unsubscribe.append(email_address)
 
-    unsubscribe_path = MONOREPO / "records" / "jims" / "emails" / "unsubscribe.csv"
+    unsubscribe_path = SYNCED_EMAIL_RECORDS / "unsubscribe.csv"
     previous_unsubscribes = _extract_emails(
         pd.read_csv(unsubscribe_path, header=None)[0]
     )
