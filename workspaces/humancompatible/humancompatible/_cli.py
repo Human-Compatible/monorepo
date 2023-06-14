@@ -12,8 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# pylint: disable = import-outside-toplevel
 
-import pathlib
 
-LIB = pathlib.Path(__file__).parent
-MONOREPO = LIB.parent.parent.parent
+import typer
+
+
+app = typer.Typer()
+
+
+@app.command()
+def propagate():
+    from ._propagate import main as _main
+
+    _main()

@@ -6,9 +6,14 @@ authors = []
 license = "Apache-2.0"
 readme = "README.md"
 
+[tool.poetry.scripts]
+hc = "humancompatible.__main__:main"
+
 [tool.poetry.dependencies]
 python = "~3.11"
-typer = "^0.9.0"
+typer = "*"
+black = "*"
+tomlkit = "*"
 
 [build-system]
 requires = ["poetry-core==1.1.0"]
