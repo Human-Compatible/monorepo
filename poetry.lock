@@ -223,6 +223,9 @@ torchvision = "*"
 typer = "*"
 uvicorn = {version = "*", extras = ["standard"]}
 
+[package.extras]
+dev = ["autoflake", "bandit", "black", "docformatter", "flake8", "ipython", "isort", "mypy", "pre-commit", "pylint", "pyright", "pytest", "pytest-bandit", "pyupgrade"]
+
 [package.source]
 type = "directory"
 url = "workspaces/assistance"

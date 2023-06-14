@@ -60,6 +60,23 @@ pytest-bandit = { version = "*", optional = true } # extras = ["dev"]
 pyupgrade = { version = "*", optional = true }     # extras = ["dev"]
 
 [tool.poetry.extras]
+dev = [
+  "autoflake",
+  "bandit",
+  "black",
+  "docformatter",
+  "flake8",
+  "ipython",
+  "isort",
+  "mypy",
+  "pre-commit",
+  "pylint",
+  "pyright",
+  "pytest",
+  "pytest-bandit",
+  "pyupgrade",
+]
+
 [build-system]
 requires = ["poetry-core==1.1.0"]
 build-backend = "poetry.core.masonry.api"

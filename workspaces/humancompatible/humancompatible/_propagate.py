@@ -87,7 +87,7 @@ def _propagate_extras(pyproject_path: pathlib.Path):
 
         comment = value.trivia.comment
 
-        if comment.startswith("# groups"):
+        if comment.startswith("# extras"):
             split = comment.split("=")
             assert len(split) == 2
             groups = json.loads(split[-1])
@@ -115,6 +115,9 @@ def _propagate_extras(pyproject_path: pathlib.Path):
         assert isinstance(old_extras, Table)
         if old_extras == new_extras:
             return
+
+    if len(new_extras) == 0:
+        return
 
     poetry["extras"] = new_extras
 

@@ -15,7 +15,6 @@ typer = "*"
 black = "*"
 tomlkit = "*"
 
-[tool.poetry.extras]
 [build-system]
 requires = ["poetry-core==1.1.0"]
 build-backend = "poetry.core.masonry.api"
