@@ -12,33 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import time
-from collections import defaultdict
 import asyncio
 import base64
 import json
 import re
+import time
+from collections import defaultdict
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Iterable
-
 
 import marko
 import numpy as np
 import pandas as pd
 
 from assistance import _ctx
+from assistance._config import POSTAL_RAW_API_URL
 from assistance._keys import get_postal_api_key
 from assistance._paths import (
     LOCAL_EMAIL_RECORD,
-    get_emails_path,
     SYNCED_CONTACT_FORM_RECORDS,
-    SYNCED_STARTED_APPLICATION,
-    SYNCED_EOI_RECORDS,
     SYNCED_EMAIL_RECORDS,
-    SYNCED_SENT_RECORDS,
+    SYNCED_EOI_RECORDS,
     SYNCED_JIMS_REPO,
+    SYNCED_SENT_RECORDS,
+    SYNCED_STARTED_APPLICATION,
+    get_emails_path,
 )
 from assistance._progression import (
     get_complete_progression_keys,
@@ -46,7 +46,6 @@ from assistance._progression import (
     set_progression_key,
 )
 from assistance._utilities import EMAIL_PATTERN
-from assistance._config import POSTAL_RAW_API_URL
 
 POSTAL_API_KEY = get_postal_api_key()
 THIRTY_SIX_HOURS = 36 * 60 * 60

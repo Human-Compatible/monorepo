@@ -14,9 +14,9 @@
 
 import logging
 
+from git.exc import HookExecutionError
 from git.repo import Repo
 from git.util import Actor
-from git.exc import HookExecutionError
 
 from assistance._paths import SYNCED_JIMS_REPO
 

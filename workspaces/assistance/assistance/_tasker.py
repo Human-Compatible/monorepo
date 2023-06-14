@@ -21,8 +21,8 @@ from assistance import _ctx
 def main():
     _ctx.open_session()
 
-    from assistance._faq import tasker as _faq_tasker
     from assistance._campaign import tasker as _campaign_tasker
+    from assistance._faq import tasker as _faq_tasker
 
     loop = asyncio.get_event_loop()
 

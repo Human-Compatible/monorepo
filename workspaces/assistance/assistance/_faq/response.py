@@ -15,9 +15,10 @@
 import asyncio
 import textwrap
 
+from assistance._completion.summary import completion_on_thread_with_summary_fallback
 from assistance._config import (
-    ROOT_DOMAIN,
     GPT_SOTA,
+    ROOT_DOMAIN,
     SUPERVISION_SUBJECT_FLAG,
     load_faq_data,
 )
@@ -26,7 +27,6 @@ from assistance._email.thread import get_email_thread
 from assistance._keys import get_openai_api_key, get_serp_api_key
 from assistance._logging import log_info
 from assistance._mailgun import send_email
-from assistance._completion.summary import completion_on_thread_with_summary_fallback
 from assistance._types import Email
 from assistance._utilities import get_cleaned_email
 

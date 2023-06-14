@@ -19,12 +19,7 @@ from typing import Any, TypedDict, cast
 
 import aiofiles
 
-from assistance._paths import (
-    AGENT_MAPPING,
-    EMAIL_MAPPING,
-    FAQ_DATA,
-    USER_DETAILS,
-)
+from assistance._paths import AGENT_MAPPING, EMAIL_MAPPING, FAQ_DATA, USER_DETAILS
 
 GPT_TURBO_SMALL_CONTEXT = "gpt-3.5-turbo-0613"
 GPT_TURBO_LARGE_CONTEXT = "gpt-3.5-turbo-16k"

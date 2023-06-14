@@ -23,7 +23,7 @@ import marko
 from mailparser_reply import EmailReplyParser
 
 from assistance import _ctx
-from assistance._config import SUPERVISION_SUBJECT_FLAG, POSTAL_RAW_API_URL
+from assistance._config import POSTAL_RAW_API_URL, SUPERVISION_SUBJECT_FLAG
 from assistance._keys import get_postal_api_key
 from assistance._paths import SYNCED_JIMS_REPO
 from assistance._types import Email

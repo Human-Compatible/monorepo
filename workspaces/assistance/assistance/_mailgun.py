@@ -14,12 +14,10 @@
 
 import json
 
-from ._logging import log_info
-
 from . import _ctx
-from ._keys import get_postal_api_key
 from ._config import POSTAL_MESSAGE_API_URL
-
+from ._keys import get_postal_api_key
+from ._logging import log_info
 
 POSTAL_API_KEY = get_postal_api_key()
 

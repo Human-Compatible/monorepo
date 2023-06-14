@@ -16,11 +16,11 @@ import json
 import textwrap
 from typing import TypedDict
 
+from assistance._completion.summary import completion_on_thread_with_summary_fallback
 from assistance._config import GPT_SOTA
 from assistance._email.thread import get_email_thread
 from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
-from assistance._completion.summary import completion_on_thread_with_summary_fallback
 from assistance._types import Email
 
 OPEN_AI_API_KEY = get_openai_api_key()

@@ -12,16 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import tomllib
 import json
 import logging
+import tomllib
 
 import aiocron
 
-
-from assistance._paths import SYNCED_JIMS_REPO
 from assistance._campaign import send
-from assistance._git import push, pull
+from assistance._git import pull, push
+from assistance._paths import SYNCED_JIMS_REPO
 
 from . import stats
 

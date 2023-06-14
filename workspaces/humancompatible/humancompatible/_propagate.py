@@ -12,15 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import pathlib
 import json
+import pathlib
 import re
 import subprocess
 import textwrap
 
 import black
 import tomlkit
-from tomlkit.items import Table, Item
+from tomlkit.items import Item, Table
 
 from ._paths import MONOREPO
 

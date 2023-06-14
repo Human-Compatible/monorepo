@@ -10,6 +10,9 @@ PROJECTS := $(notdir $(wildcard workspaces/*))
 init: .venv
 	poetry run pre-commit install
 
+pre-commit: .venv
+	poetry run pre-commit run --all-files
+
 test-%: .venv
 	poetry install --sync --with $*
 	poetry run pytest workspaces/$*

@@ -16,9 +16,9 @@
 from html import escape
 from typing import Literal, TypedDict
 
+from assistance._config import ROOT_DOMAIN
 from assistance._types import Email
 from assistance._utilities import get_cleaned_email
-from assistance._config import ROOT_DOMAIN
 
 
 class ReplyData(TypedDict):

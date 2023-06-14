@@ -14,9 +14,9 @@
 
 import textwrap
 
+from assistance._completion.summary import completion_on_thread_with_summary_fallback
 from assistance._config import GPT_TURBO_SMALL_CONTEXT
 from assistance._keys import get_openai_api_key
-from assistance._completion.summary import completion_on_thread_with_summary_fallback
 
 OPEN_AI_API_KEY = get_openai_api_key()
 
