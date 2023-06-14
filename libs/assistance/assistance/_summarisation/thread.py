@@ -18,11 +18,11 @@
 
 import textwrap
 
-from assistance._config import SIMPLER_OPENAI_MODEL
+from assistance._config import GPT_TURBO_SMALL_CONTEXT
 from assistance._openai import get_completion_only
 
 SUMMARY_KWARGS = {
-    "engine": SIMPLER_OPENAI_MODEL,
+    "engine": GPT_TURBO_SMALL_CONTEXT,
     "max_tokens": 512,
     "temperature": 0.7,
     "top_p": 1,

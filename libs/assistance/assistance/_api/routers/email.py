@@ -21,23 +21,15 @@ import aiofiles
 from fastapi import APIRouter, Request
 
 from assistance import _ctx
-from assistance._config import (
-    ROOT_DOMAIN,
-    get_agent_mappings,
-    get_user_details,
-    get_user_from_email,
-)
+from assistance._config import ROOT_DOMAIN
 from assistance._email.formatter import handle_reply_formatter
-from assistance._email.reply import ALIASES, create_reply
-from assistance._handlers.custom import react_to_custom_agent_request
-from assistance._handlers.default import DEFAULT_TASKS
-from assistance._handlers.restricted import RESTRICTED_TASKS
 from assistance._keys import get_mailgun_api_key
 from assistance._logging import log_info
 from assistance._mailgun import send_email
 from assistance._paths import NEW_EMAILS, get_emails_path
 from assistance._types import Email, RawEmail
 from assistance._utilities import get_cleaned_email, get_hash_digest
+from assistance._faq.response import write_and_send_email_response
 
 MAILGUN_API_KEY = get_mailgun_api_key()
 
@@ -124,52 +116,8 @@ async def _react_to_email(email: Email):
         )
         return
 
-    if get_cleaned_email(email["from"]) in ALIASES:
-        logging.info(
-            "Email is from an alias of an assistance.chat agent. Breaking loop. Doing nothing."
-        )
-        return
-
-    # TODO: Filter out facebook messages. Also make sure that Discourse
-    # posts are being caught in the phirho logging filter.
-    if email["reply_to"] == ["Avatar Phi Rho <notifications@forum.phirho.org>"]:
-        logging.info(
-            "Email is a notification from the Phi Rho forum that can't be replied to. Doing nothing."
-        )
-        return
-
-    user_details, agent_mappings = await _get_user_details_and_mappings(email)
-
-    try:
-        delivered_to = get_cleaned_email(email["to"])
-    except KeyError:
-        pass
-    else:
-        if delivered_to in ALIASES:
-            mapped_agent = ALIASES[delivered_to]
-
-            await RESTRICTED_TASKS[mapped_agent](user_details=user_details, email=email)
-
-            return
-
-    try:
-        mapped_agent = agent_mappings[email["agent_name"]]
-    except KeyError:
-        pass
-    else:
-        await RESTRICTED_TASKS[mapped_agent](user_details=user_details, email=email)
-
-        return
-
-    try:
-        task = DEFAULT_TASKS[email["agent_name"]][1]
-    except KeyError:
-        pass
-    else:
-        if isinstance(task, str):
-            await react_to_custom_agent_request(email=email, prompt_task=task)
-        else:
-            await task(email)
+    if email["agent_name"] == "jims-ac-faq":
+        await write_and_send_email_response("jims-ac", email)
 
         return
 
@@ -180,52 +128,7 @@ async def _react_to_email(email: Email):
 
     logging.info("No handler found. Doing nothing.")
 
-    # await _fallback_email_handler(user_details=user_details, email=email)
     return
-
-
-async def _get_user_details_and_mappings(email: Email):
-    try:
-        user = await get_user_from_email(email["user_email"])
-    except ValueError:
-        first_name = email["from"].split(" ")[0].capitalize()
-        user_details = {"first_name": first_name}
-        agent_mappings = {}
-
-        return user_details, agent_mappings
-
-    user_details = await get_user_details(user)
-    agent_mappings = await get_agent_mappings(user)
-
-    return user_details, agent_mappings
-
-
-async def _fallback_email_handler(user_details: dict, email: Email):
-    response = (
-        f"Hi {user_details['first_name']},\n\n"
-        "This particular Assistance.Chat agent has not yet been implemented "
-        "for your user account.\n\n"
-        "I have included Simon, the developer of this software into this email, "
-        "hopefully he might be able to help you on where to go from here.\n\n"
-        "Kind regards,\n"
-        "Assistance.Chat"
-    )
-
-    reply = create_reply(
-        original_email=email,
-        response=response,
-        additional_response_addresses=["me@simonbiggs.net"],
-    )
-
-    mailgun_data = {
-        "from": f"{email['agent_name']}@{ROOT_DOMAIN}",
-        "to": reply["to_addresses"],
-        "cc": reply["cc_addresses"],
-        "subject": reply["subject"],
-        "plain_body": reply["total_reply"],
-    }
-
-    await send_email(email["user_email"], mailgun_data)
 
 
 async def _initial_parsing(raw_email: RawEmail):

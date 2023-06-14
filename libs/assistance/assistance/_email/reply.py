@@ -19,8 +19,6 @@ from typing import Literal, TypedDict
 from assistance._types import Email
 from assistance._utilities import get_cleaned_email
 
-ALIASES = {"phirho@phirho.org": "avatar"}
-
 
 class ReplyData(TypedDict):
     subject: str

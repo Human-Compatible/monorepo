@@ -15,77 +15,26 @@
 import json
 import pathlib
 import tomllib
-from typing import Any, Literal, TypedDict, cast
+from typing import Any, TypedDict, cast
 
 import aiofiles
 
 from assistance._paths import (
     AGENT_MAPPING,
-    CONFIG,
     EMAIL_MAPPING,
     FAQ_DATA,
     USER_DETAILS,
 )
 
-SIMPLER_OPENAI_MODEL = "gpt-3.5-turbo"
-SOTA_OPENAI_MODEL = "gpt-4"
+GPT_TURBO_SMALL_CONTEXT = "gpt-3.5-turbo-0613"
+GPT_TURBO_LARGE_CONTEXT = "gpt-3.5-turbo-16k"
+GPT_SOTA = "gpt-4-0613"
 
 SUPERVISION_SUBJECT_FLAG = "[SUPERVISION TASK]"
 
 ROOT_DOMAIN = "assistance.chat"
 PAYMENT_LINK = "https://buy.stripe.com/bIYeXF2s1d0E4wg9AB"
 EMAIL_PRODUCT_ID = "prod_NLuYISl8KZ6fUX"
-
-TargetedNewsFormats = Literal["digest", "discourse"]
-
-
-class TargetedNewsUserOverrides(TypedDict, total=False):
-    delivery_time: str
-    delivery_timezone: str
-    delivery_frequency: str
-    goals: list[str]
-    tasks: list[str]
-
-
-class TargetedNewsSubscriptionDataItem(TypedDict):
-    target_audience: str
-    sentence_blacklist: list[str]
-    keywords: list[str]
-    agent_user: str
-    format: TargetedNewsFormats
-    subscribers: list[str]
-    user_overrides: dict[str, TargetedNewsUserOverrides]
-
-
-class TargetedNewsConfig(TypedDict):
-    delivery_time: str
-    delivery_timezone: str
-    delivery_frequency: str
-    goals: list[str]
-    goal_weights: list[float]
-    tasks: list[str]
-    task_weights: list[float]
-    subscription_data: list[TargetedNewsSubscriptionDataItem]
-
-
-def get_google_oauth_client_id():
-    return _load_config_item("google-oauth-client-id")
-
-
-def _load_config_item(name: str):
-    path = CONFIG / name
-
-    with open(path, encoding="utf8") as f:
-        item = f.read().strip()
-
-    return item
-
-
-async def load_targeted_news_config() -> TargetedNewsConfig:
-    async with aiofiles.open(CONFIG / "targeted-news.toml", "r") as f:
-        news_config = cast(TargetedNewsConfig, tomllib.loads(await f.read()))
-
-    return news_config
 
 
 async def get_user_from_email(email_address: str):

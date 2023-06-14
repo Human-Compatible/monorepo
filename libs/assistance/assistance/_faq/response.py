@@ -17,7 +17,7 @@ import textwrap
 
 from assistance._config import (
     ROOT_DOMAIN,
-    SOTA_OPENAI_MODEL,
+    GPT_SOTA,
     SUPERVISION_SUBJECT_FLAG,
     load_faq_data,
 )
@@ -38,7 +38,7 @@ OPEN_AI_API_KEY = get_openai_api_key()
 SERP_API_KEY = get_serp_api_key()
 
 MODEL_KWARGS = {
-    "engine": SOTA_OPENAI_MODEL,
+    "engine": GPT_SOTA,
     "max_tokens": 1500,
     "temperature": 0.7,
     "top_p": 1,

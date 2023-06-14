@@ -16,7 +16,7 @@ import asyncio
 import json
 import textwrap
 
-from assistance._config import SIMPLER_OPENAI_MODEL
+from assistance._config import GPT_TURBO_SMALL_CONTEXT
 from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
 from assistance._openai import get_completion_only
@@ -24,7 +24,7 @@ from assistance._openai import get_completion_only
 OPEN_AI_API_KEY = get_openai_api_key()
 
 MODEL_KWARGS = {
-    "engine": SIMPLER_OPENAI_MODEL,
+    "engine": GPT_TURBO_SMALL_CONTEXT,
     "max_tokens": 1024,
     "temperature": 0.7,
     "top_p": 1,
