@@ -48,6 +48,7 @@ def run_stats():
         "next-steps",
         "last-reminder",
         "first-follow-up-after-application-start",
+        "office-hours-june-14",
     ]:
         column_data = []
 

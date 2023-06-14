@@ -43,6 +43,7 @@ marko = "*"
 pandas = "*"
 GitPython = "*"
 tomlkit = "*"
+openpyxl = "*"
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "*"
