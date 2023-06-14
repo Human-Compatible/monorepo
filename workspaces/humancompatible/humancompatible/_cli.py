@@ -37,6 +37,9 @@ def propagate():
 
 @app.command()
 def sync(message: str):
+    if not message:
+        raise ValueError("Please provide a commit message")
+
     from ._git import sync as _sync
 
     _sync(message)
