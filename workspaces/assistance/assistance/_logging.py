@@ -13,11 +13,9 @@
 # limitations under the License.
 
 import logging
-from logging.handlers import RotatingFileHandler
 from typing import Any
 
 from assistance import _ctx
-from assistance._paths import PHIRHO_LOGS
 
 
 def main():
@@ -26,22 +24,6 @@ def main():
         format="%(asctime)s.%(msecs)d %(levelname)s: %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-
-    logger = logging.getLogger()
-
-    handler = RotatingFileHandler(
-        PHIRHO_LOGS / "phirho.log",
-        maxBytes=1000000,
-        backupCount=50,
-    )
-    handler.setFormatter(
-        logging.Formatter(
-            fmt="%(asctime)s.%(msecs)d %(levelname)s: %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S",
-        )
-    )
-    handler.addFilter(PhiRhoFilter())
-    logger.addHandler(handler)
 
 
 def log_info(scope: None | str, message: Any):
@@ -55,15 +37,3 @@ def log_info(scope: None | str, message: Any):
         return
 
     logging.info(f"[{scope}] {message}")
-
-
-PHIRHO_SCOPES = ["[notifications@forum.phirho.org]", "[phirho@phirho.org]"]
-
-
-class PhiRhoFilter(logging.Filter):
-    def filter(self, record):
-        for scope in PHIRHO_SCOPES:
-            if record.getMessage().startswith(scope):
-                return True
-
-        return False

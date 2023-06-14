@@ -28,10 +28,6 @@ SECRETS = REFUGE.joinpath("secrets")
 if not SECRETS.exists():
     SECRETS = STORE.joinpath("secrets")
 
-USERS = STORE.joinpath("users")
-EMAIL_MAPPING = USERS.joinpath("email-mapping")
-USER_DETAILS = USERS.joinpath("details")
-AGENT_MAPPING = USERS.joinpath("agent-mapping")
 
 SYNCED_JIMS_REPO = REFUGE / "jims"
 SYNCED_RECORDS = SYNCED_JIMS_REPO / "records"
@@ -44,13 +40,7 @@ SYNCED_STARTED_APPLICATION = SYNCED_EMAIL_RECORDS / "started-application"
 SYNCED_FAQS_STORE = SYNCED_JIMS_REPO.joinpath("faqs.toml")
 
 LOCAL_RECORDS = STORE.joinpath("records")
-
-PROMPTS = LOCAL_RECORDS.joinpath("prompts")
-COMPLETIONS = LOCAL_RECORDS.joinpath("completions")
-ARTICLE_METADATA = LOCAL_RECORDS.joinpath("article-metadata")
-DOWNLOADED_ARTICLES = LOCAL_RECORDS.joinpath("downloaded-articles")
 LOCAL_EMAIL_RECORD = LOCAL_RECORDS.joinpath("emails")
-POSTAL = LOCAL_RECORDS.joinpath("postal")
 
 COMPLETION_CACHE = LOCAL_RECORDS.joinpath("completion-cache")
 
@@ -60,36 +50,10 @@ EMAIL_PIPELINES = PIPELINES.joinpath("emails")
 NEW_EMAILS = EMAIL_PIPELINES.joinpath("new")
 
 LOGS = STORE.joinpath("server", "logs")
-PHIRHO_LOGS = LOGS.joinpath("phirho")
-
-TEST_DIR = LIB.joinpath("tests")
-TESTS_DATA = TEST_DIR.joinpath("data")
-
-
-AI_DIR = LIB.joinpath("_ai")
-AI_REGISTRY_DIR = AI_DIR.joinpath("registry")
-
-
-def get_article_metadata_path(hash_digest: str, create_parent: bool = False):
-    path = _get_record_path(ARTICLE_METADATA, hash_digest, create_parent)
-
-    return path
-
-
-def get_downloaded_article_path(hash_digest: str, create_parent: bool = False):
-    path = _get_record_path(DOWNLOADED_ARTICLES, hash_digest, create_parent)
-
-    return path
 
 
 def get_emails_path(hash_digest: str, create_parent: bool = False):
     path = _get_record_path(LOCAL_EMAIL_RECORD, hash_digest, create_parent)
-
-    return path
-
-
-def get_postal_path(hash_digest: str, create_parent: bool = False):
-    path = _get_record_path(POSTAL, hash_digest, create_parent)
 
     return path
 

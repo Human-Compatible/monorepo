@@ -19,12 +19,7 @@ from typing import TypedDict, cast
 
 import aiofiles
 
-from assistance._paths import (
-    AGENT_MAPPING,
-    EMAIL_MAPPING,
-    SYNCED_FAQS_STORE,
-    USER_DETAILS,
-)
+from assistance._paths import SYNCED_FAQS_STORE
 
 GPT_TURBO_SMALL_CONTEXT = "gpt-3.5-turbo-0613"
 GPT_TURBO_LARGE_CONTEXT = "gpt-3.5-turbo-16k"
@@ -41,28 +36,6 @@ POSTAL_API_URL = f"https://{POSTAL_DOMAIN}/api/v1/send"
 
 POSTAL_MESSAGE_API_URL = f"{POSTAL_API_URL}/message"
 POSTAL_RAW_API_URL = f"{POSTAL_API_URL}/raw"
-
-
-async def get_user_from_email(email_address: str):
-    try:
-        async with aiofiles.open(EMAIL_MAPPING / email_address) as f:
-            user = await f.read()
-    except FileNotFoundError as e:
-        raise ValueError("User not found") from e
-
-    return user
-
-
-async def get_user_details(user: str):
-    details = await get_file_based_mapping(USER_DETAILS, user)
-
-    return details
-
-
-async def get_agent_mappings(user: str):
-    details = await get_file_based_mapping(AGENT_MAPPING, user)
-
-    return details
 
 
 class QAndAItem(TypedDict):
