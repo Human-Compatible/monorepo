@@ -59,6 +59,7 @@ pytest = { version = "*", optional = true }        # extras = ["dev"]
 pytest-bandit = { version = "*", optional = true } # extras = ["dev"]
 pyupgrade = { version = "*", optional = true }     # extras = ["dev"]
 
+[tool.poetry.extras]
 [build-system]
 requires = ["poetry-core==1.1.0"]
 build-backend = "poetry.core.masonry.api"

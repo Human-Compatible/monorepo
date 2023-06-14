@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Simon Biggs
+# Copyright (C) 2020-2023 Simon Biggs
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@ import textwrap
 
 import black
 import tomlkit
-from tomlkit.container import Container
-from tomlkit.items import Item
+from tomlkit.items import Table, Item
 
 from ._paths import MONOREPO
 
@@ -78,7 +77,7 @@ def _propagate_extras(pyproject_path: pathlib.Path):
     poetry = _get_poetry_from_pyproject_contents(pyproject_contents)
 
     deps = poetry["dependencies"]
-    assert isinstance(deps, Container)
+    assert isinstance(deps, Table)
 
     raw_new_extras = {}
 
@@ -102,20 +101,25 @@ def _propagate_extras(pyproject_path: pathlib.Path):
     for group, deps in raw_new_extras.items():
         raw_new_extras[group] = sorted(deps)
 
-    new_extras = tomlkit.item(raw_new_extras, _parent=poetry, _sort_keys=True)  # type: ignore
+    new_extras = tomlkit.item(raw_new_extras, _parent=poetry, _sort_keys=True)
 
     for _, deps in new_extras.items():
         if len(deps.as_string()) > 88:
             deps.multiline(True)
 
-    old_extras = poetry["extras"]
-    assert isinstance(old_extras, Container)
+    try:
+        old_extras = poetry["extras"]
+    except KeyError:
+        pass
+    else:
+        assert isinstance(old_extras, Table)
+        if old_extras == new_extras:
+            return
 
-    if old_extras != new_extras:
-        poetry["extras"] = new_extras
+    poetry["extras"] = new_extras
 
-        with open(pyproject_path, "w") as f:
-            f.write(tomlkit.dumps(pyproject_contents))
+    with open(pyproject_path, "w") as f:
+        f.write(tomlkit.dumps(pyproject_contents))
 
 
 def _update_poetry_lock():
@@ -139,11 +143,11 @@ def _read_pyproject(pyproject_path: pathlib.Path):
 
 def _get_poetry_from_pyproject_contents(
     pyproject_contents: tomlkit.TOMLDocument,
-) -> Container:
+) -> Table:
     tool = pyproject_contents["tool"]
-    assert isinstance(tool, Container)
+    assert isinstance(tool, Table)
 
     poetry = tool["poetry"]
-    assert isinstance(poetry, Container)
+    assert isinstance(poetry, Table)
 
     return poetry
