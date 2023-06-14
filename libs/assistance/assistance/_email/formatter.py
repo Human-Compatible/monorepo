@@ -91,11 +91,13 @@ async def handle_reply_formatter(email: Email):
         "data": b64_message,
     }
 
-    _postal_response = await _ctx.session.post(
+    postal_response = await _ctx.session.post(
         url=url,
         headers=headers,
         data=json.dumps(postal_data),
     )
+
+    return postal_response
 
 
 def _get_reply_template(email: Email):

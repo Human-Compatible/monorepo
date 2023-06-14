@@ -128,15 +128,11 @@ def get_all_user_emails(email: Email, extra: list[str] | None = None):
         item for item in no_overlap_cc_addresses if not "assistance.chat" in item
     ]
 
-    aliases_removed = no_assistance_chat_cc_addresses
-    for an_alias in ALIASES.keys():
-        aliases_removed = [item for item in aliases_removed if not an_alias in item]
-
     if email["reply_to"] is not None:
         to_addresses = [get_cleaned_email(item) for item in email["reply_to"]]
     else:
         to_addresses = [get_cleaned_email(email["from"])]
 
-    cc_addresses = list(set(aliases_removed).difference(to_addresses))
+    cc_addresses = list(set(no_assistance_chat_cc_addresses).difference(to_addresses))
 
     return to_addresses, cc_addresses
