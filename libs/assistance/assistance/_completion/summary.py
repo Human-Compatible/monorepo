@@ -66,7 +66,7 @@ MAX_MODEL_TOKENS = 4096
 SUMMARY_BATCH_SIZE = 2
 
 
-async def run_with_summary_fallback(
+async def completion_on_thread_with_summary_fallback(
     scope: str,
     prompt: str,
     email_thread: list[str],

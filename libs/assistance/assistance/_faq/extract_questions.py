@@ -20,7 +20,7 @@ from assistance._config import GPT_SOTA
 from assistance._email.thread import get_email_thread
 from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
-from assistance._summarisation.thread import run_with_summary_fallback
+from assistance._completion.summary import completion_on_thread_with_summary_fallback
 from assistance._types import Email
 
 OPEN_AI_API_KEY = get_openai_api_key()
@@ -136,7 +136,7 @@ async def extract_questions(email: Email) -> list[QuestionAndContext]:
 
     # last_two_emails_thread = email_thread[-2:]
 
-    response, _ = await run_with_summary_fallback(
+    response, _ = await completion_on_thread_with_summary_fallback(
         scope=scope,
         prompt=PROMPT,
         instructions="",

@@ -43,7 +43,7 @@ Head of Entrepreneurship
 [Linkedin](https://www.linkedin.com/in/alex1carpenter/) | [Twitter](https://twitter.com/Alex1Carpenter)
 """
 
-LOGO_PATH = SYNCED_JIMS_REPO / "ac-logo.png"
+LOGO_PATH = SYNCED_JIMS_REPO.joinpath("ac-logo.png")
 
 
 async def handle_reply_formatter(email: Email):

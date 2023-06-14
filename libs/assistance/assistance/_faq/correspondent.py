@@ -16,7 +16,7 @@ import textwrap
 
 from assistance._config import GPT_TURBO_SMALL_CONTEXT
 from assistance._keys import get_openai_api_key
-from assistance._summarisation.thread import run_with_summary_fallback
+from assistance._completion.summary import completion_on_thread_with_summary_fallback
 
 OPEN_AI_API_KEY = get_openai_api_key()
 
@@ -59,7 +59,7 @@ PROMPT = textwrap.dedent(
 
 async def get_first_name(scope: str, email_thread, their_email_address: str) -> str:
     prompt = PROMPT.replace("{email_address}", their_email_address)
-    response, _ = await run_with_summary_fallback(
+    response, _ = await completion_on_thread_with_summary_fallback(
         scope=scope,
         prompt=prompt,
         email_thread=email_thread,

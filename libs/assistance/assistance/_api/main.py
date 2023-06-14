@@ -14,37 +14,17 @@
 
 import uvicorn
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 from assistance import _ctx, _logging
-from assistance._config import ROOT_DOMAIN
 
-from .routers import contact_form, email, postal, stripe
+from . import contact_form, email, stripe
 
 _logging.main()
 
-
 app = FastAPI()
-
-origins = [
-    f"https://enquire.{ROOT_DOMAIN}",
-    f"https://student.{ROOT_DOMAIN}",
-    "https://globaltalent.work",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 app.include_router(stripe.router)
 app.include_router(email.router)
-app.include_router(postal.router)
 app.include_router(contact_form.router)
 
 

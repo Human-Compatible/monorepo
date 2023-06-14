@@ -21,7 +21,7 @@ from assistance._paths import SYNCED_JIMS_REPO, SYNCED_SENT_RECORDS
 
 
 def run_stats():
-    stats_path = SYNCED_JIMS_REPO / "campaign-overview.csv"
+    stats_path = SYNCED_JIMS_REPO.joinpath("campaign-overview.csv")
 
     progression_timing_data = get_progression_stats()
     counts = defaultdict(lambda: defaultdict(lambda: 0))

@@ -13,16 +13,12 @@
 # limitations under the License.
 
 import json
-import secrets
-
-import aiohttp
 
 from assistance._logging import log_info
-from assistance._paths import USERS
 
 from . import _ctx
 from ._config import ROOT_DOMAIN
-from ._keys import get_mailgun_api_key, get_postal_api_key
+from ._keys import get_postal_api_key
 
 EMAIL_SUBJECT = f"Your career.{ROOT_DOMAIN} access link"
 EMAIL_TEMPLATE = (
@@ -30,7 +26,6 @@ EMAIL_TEMPLATE = (
 )
 LINK_TEMPLATE = "https://career.{domain}/?pwd={password}"
 
-API_KEY = get_mailgun_api_key()
 POSTAL_API_KEY = get_postal_api_key()
 
 
@@ -54,39 +49,3 @@ async def send_email(scope: str, postal_data):
     )
 
     log_info(scope, json.dumps(await postal_response.json(), indent=2))
-
-
-# async def send_email_with
-
-
-def get_access_link(email: str):
-    try:
-        with open(USERS / email, encoding="utf8") as f:
-            password = f.read().strip()
-    except FileNotFoundError:
-        password = secrets.token_urlsafe()
-
-        # We are generating the user passwords. They are not user
-        # generated. Therefore we can save the tokens that we generate
-        # in plaintext on the secure server.
-        with open(USERS / email, "w", encoding="utf8") as f:
-            f.write(password)
-
-    return LINK_TEMPLATE.format(password=password, domain=ROOT_DOMAIN)
-
-
-async def send_access_link(email: str):
-    url = f"https://api.eu.mailgun.net/v3/{ROOT_DOMAIN}/messages"
-
-    access_link = get_access_link(email=email)
-
-    data = {
-        "from": f"noreply@{ROOT_DOMAIN}",
-        "to": email,
-        "subject": EMAIL_SUBJECT,
-        "text": EMAIL_TEMPLATE.format(access_link=access_link),
-    }
-
-    await _ctx.session.post(
-        url=url, auth=aiohttp.BasicAuth(login="api", password=API_KEY), data=data
-    )
