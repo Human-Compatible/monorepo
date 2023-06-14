@@ -19,29 +19,21 @@ import textwrap
 
 from assistance._config import GPT_TURBO_SMALL_CONTEXT
 from assistance._embeddings import get_top_questions_and_answers
-from assistance._keys import get_openai_api_key, get_serp_api_key
+from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
 from assistance._openai import get_completion_only
 
 from .extract_questions import QuestionAndContext
 from .sub_questions import get_sub_questions
 
-# from .batched_questions import get_questions_by_batch
-
-
 OPEN_AI_API_KEY = get_openai_api_key()
-SERP_API_KEY = get_serp_api_key()
+
 
 MODEL_KWARGS = {
     "engine": GPT_TURBO_SMALL_CONTEXT,
     "max_tokens": 512,
     "temperature": 0.7,
 }
-
-# MODEL_KWARGS_WITH_GPT_4 = {
-#     **MODEL_KWARGS,
-#     "engine": "gpt-4",
-# }
 
 PROMPT = textwrap.dedent(
     """

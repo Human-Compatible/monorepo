@@ -13,7 +13,6 @@ assistance = "assistance.__main__:main"
 python = "~3.11"
 
 openai = "*"
-beautifulsoup4 = "*"
 
 aiofiles = "*"
 aiohttp = "*"
@@ -26,7 +25,6 @@ gunicorn = "*"
 stripe = "*"
 tenacity = "*"
 ipykernel = "*"
-google-search-results = "*"
 
 aiocron = "*"
 mail-parser-reply = "*"

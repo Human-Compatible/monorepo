@@ -15,11 +15,16 @@
 import json
 import pathlib
 import tomllib
-from typing import Any, TypedDict, cast
+from typing import TypedDict, cast
 
 import aiofiles
 
-from assistance._paths import AGENT_MAPPING, EMAIL_MAPPING, FAQ_DATA, USER_DETAILS
+from assistance._paths import (
+    AGENT_MAPPING,
+    EMAIL_MAPPING,
+    SYNCED_FAQS_STORE,
+    USER_DETAILS,
+)
 
 GPT_TURBO_SMALL_CONTEXT = "gpt-3.5-turbo-0613"
 GPT_TURBO_LARGE_CONTEXT = "gpt-3.5-turbo-16k"
@@ -60,27 +65,18 @@ async def get_agent_mappings(user: str):
     return details
 
 
-class ProgressionItem(TypedDict):
-    key: str
-    task: str
-    fields_for_completion: list[str]
-    attachment_handler: str | None
-    always_run_at_least_once: bool
-    # TODO: Better handling of these fields
-    subject: str
-    body: str
+class QAndAItem(TypedDict):
+    question: str
+    answer: str
 
 
-class FormConfig(TypedDict):
-    defaults: dict[str, Any]
-    options: dict[str, list[str]]
-    progression: list[ProgressionItem]
-    field: dict[str, Any]
+class FaqData(TypedDict):
+    items: list[QAndAItem]
 
 
-async def load_faq_data(name: str):
-    async with aiofiles.open(FAQ_DATA / f"{name}.toml", encoding="utf8") as f:
-        data = cast(FormConfig, tomllib.loads(await f.read()))
+async def load_faq_data():
+    async with aiofiles.open(SYNCED_FAQS_STORE, encoding="utf8") as f:
+        data = cast(FaqData, tomllib.loads(await f.read()))
 
     return data
 

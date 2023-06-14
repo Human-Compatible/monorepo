@@ -24,7 +24,7 @@ from assistance._config import (
 )
 from assistance._email.reply import create_reply
 from assistance._email.thread import get_email_thread
-from assistance._keys import get_openai_api_key, get_serp_api_key
+from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
 from assistance._mailgun import send_email
 from assistance._types import Email
@@ -35,7 +35,6 @@ from .correspondent import get_first_name
 from .extract_questions import extract_questions
 
 OPEN_AI_API_KEY = get_openai_api_key()
-SERP_API_KEY = get_serp_api_key()
 
 MODEL_KWARGS = {
     "engine": GPT_SOTA,
@@ -101,10 +100,7 @@ PROMPT = textwrap.dedent(
 ).strip()
 
 
-async def write_and_send_email_response(
-    faq_name: str,
-    email: Email,
-):
+async def write_and_send_email_response(email: Email):
     scope = email["user_email"]
 
     email_thread = get_email_thread(email=email)
@@ -162,7 +158,7 @@ async def write_and_send_email_response(
     )
 
     response = await _handle_questions(
-        scope, email, email_thread, first_name, faq_name, questions_without_answers
+        scope, email, email_thread, first_name, questions_without_answers
     )
 
     log_info(scope, response)
@@ -178,7 +174,7 @@ async def write_and_send_email_response(
     )
 
     postal_data = {
-        "from": f"{faq_name}-faq@{ROOT_DOMAIN}",
+        "from": f"jims-ac-faq@{ROOT_DOMAIN}",
         "to": ["pathways@jims.international"],
         "bcc": ["me@simonbiggs.net"],
         "reply_to": formatting_reply_to,
@@ -190,12 +186,12 @@ async def write_and_send_email_response(
 
 
 async def _handle_questions(
-    scope, email: Email, email_thread: list[str], first_name, faq_name, questions
+    scope, email: Email, email_thread: list[str], first_name, questions
 ):
     if len(questions) == 0:
         return "No questions were found that require answering"
 
-    faq_data = await load_faq_data(faq_name)
+    faq_data = await load_faq_data()
 
     coroutines = []
     for question_and_context in questions:

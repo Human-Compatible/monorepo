@@ -21,40 +21,8 @@ def get_openai_api_key():
     return _load_secret("openai-api-key")
 
 
-def get_google_search_api_key():
-    return _load_secret("google-search-api-key")
-
-
-def get_google_oauth_client_secret():
-    return _load_secret("google-oauth-client-secret")
-
-
-def get_serp_api_key():
-    return _load_secret("serp-api-key")
-
-
-def get_jwt_key():
-    return _load_secret("jwt-key")
-
-
-def get_fernet_key():
-    return _load_secret("fernet-key").encode()
-
-
-def get_mailgun_api_key():
-    return _load_secret("mailgun-api-key")
-
-
 def get_postal_api_key():
     return _load_secret("postal-api-key")
-
-
-def get_notion_api_key():
-    return _load_secret("notion-api-key")
-
-
-def get_starlette_session_key():
-    return _load_secret("starlette-session-key")
 
 
 def get_stripe_webhook_key():

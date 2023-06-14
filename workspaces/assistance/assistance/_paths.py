@@ -23,12 +23,10 @@ MONOREPO = LIB.parent.parent.parent
 PRIVATE = MONOREPO.joinpath("private")
 REFUGE = PRIVATE.joinpath("refuge")
 
-CONFIG = REFUGE.joinpath("config")
+SECRETS = REFUGE.joinpath("secrets")
 
-if not CONFIG.exists():
-    CONFIG = STORE.joinpath("config")
-
-SECRETS = CONFIG.joinpath("secrets")
+if not SECRETS.exists():
+    SECRETS = STORE.joinpath("secrets")
 
 USERS = STORE.joinpath("users")
 EMAIL_MAPPING = USERS.joinpath("email-mapping")
@@ -43,6 +41,7 @@ SYNCED_EOI_RECORDS = SYNCED_EMAIL_RECORDS / "eoi"
 SYNCED_CONTACT_FORM_RECORDS = SYNCED_EOI_RECORDS / "contact-form-api"
 SYNCED_SENT_RECORDS = SYNCED_EMAIL_RECORDS / "sent"
 SYNCED_STARTED_APPLICATION = SYNCED_EMAIL_RECORDS / "started-application"
+SYNCED_FAQS_STORE = SYNCED_JIMS_REPO.joinpath("faqs.toml")
 
 LOCAL_RECORDS = STORE.joinpath("records")
 
@@ -57,9 +56,6 @@ COMPLETION_CACHE = LOCAL_RECORDS.joinpath("completion-cache")
 
 PIPELINES = STORE.joinpath("pipelines")
 
-GOOGLE_ALERTS_PIPELINES = PIPELINES.joinpath("google-alerts")
-NEW_GOOGLE_ALERTS = GOOGLE_ALERTS_PIPELINES.joinpath("new")
-
 EMAIL_PIPELINES = PIPELINES.joinpath("emails")
 NEW_EMAILS = EMAIL_PIPELINES.joinpath("new")
 
@@ -69,8 +65,6 @@ PHIRHO_LOGS = LOGS.joinpath("phirho")
 TEST_DIR = LIB.joinpath("tests")
 TESTS_DATA = TEST_DIR.joinpath("data")
 
-FORM_TEMPLATES = CONFIG.joinpath("form-templates")
-FAQ_DATA = CONFIG.joinpath("faq")
 
 AI_DIR = LIB.joinpath("_ai")
 AI_REGISTRY_DIR = AI_DIR.joinpath("registry")
