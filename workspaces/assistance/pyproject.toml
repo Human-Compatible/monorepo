@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "assistance"
+version = "0.1.1"
+description = ""
+authors = [
+  "Simon Biggs <simon@humancompatible.co>",
+  "Alex Carpenter <alex@humancompatible.co>",
+]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.scripts]
+assistance = "assistance.__main__:main"
+
+[tool.poetry.dependencies]
+python = "~3.11"
+
+openai = "*"
+beautifulsoup4 = "*"
+
+aiofiles = "*"
+aiohttp = "*"
+fastapi = "*"
+uvicorn = { extras = ["standard"], version = "*" }
+
+typer = "*"
+
+gunicorn = "*"
+stripe = "*"
+tenacity = "*"
+ipykernel = "*"
+google-search-results = "*"
+
+aiocron = "*"
+mail-parser-reply = "*"
+torch = "*"
+torchvision = "*"
+torchaudio = "*"
+asyncache = "*"
+
+marko = "*"
+pandas = "*"
+GitPython = "*"
+tomlkit = "*"
+openpyxl = "*"
+
+autoflake = { version = "*", optional = true }     # extras = ["dev"]
+bandit = { version = "*", optional = true }        # extras = ["dev"]
+black = { version = "*", optional = true }         # extras = ["dev"]
+docformatter = { version = "*", optional = true }  # extras = ["dev"]
+flake8 = { version = "*", optional = true }        # extras = ["dev"]
+ipython = { version = "*", optional = true }       # extras = ["dev"]
+isort = { version = "*", optional = true }         # extras = ["dev"]
+mypy = { version = "*", optional = true }          # extras = ["dev"]
+pre-commit = { version = "*", optional = true }    # extras = ["dev"]
+pylint = { version = "*", optional = true }        # extras = ["dev"]
+pyright = { version = "*", optional = true }       # extras = ["dev"]
+pytest = { version = "*", optional = true }        # extras = ["dev"]
+pytest-bandit = { version = "*", optional = true } # extras = ["dev"]
+pyupgrade = { version = "*", optional = true }     # extras = ["dev"]
+
+[build-system]
+requires = ["poetry-core==1.1.0"]
+build-backend = "poetry.core.masonry.api"

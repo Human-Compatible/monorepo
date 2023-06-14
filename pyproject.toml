@@ -10,11 +10,12 @@ readme = "README.md"
 python = "~3.11"
 
 [tool.poetry.dependencies.assistance]
-path = "libs/assistance"
+path = "workspaces/assistance"
+extras = ["test"]
 develop = true
 
 [tool.poetry.dependencies.humancompatible]
-path = "libs/humancompatible"
+path = "workspaces/humancompatible"
 develop = true
 
 [build-system]
