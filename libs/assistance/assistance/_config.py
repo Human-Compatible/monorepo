@@ -36,6 +36,12 @@ ROOT_DOMAIN = "assistance.chat"
 PAYMENT_LINK = "https://buy.stripe.com/bIYeXF2s1d0E4wg9AB"
 EMAIL_PRODUCT_ID = "prod_NLuYISl8KZ6fUX"
 
+POSTAL_DOMAIN = f"postal.{ROOT_DOMAIN}"
+POSTAL_API_URL = f"https://{POSTAL_DOMAIN}/api/v1/send"
+
+POSTAL_MESSAGE_API_URL = f"{POSTAL_API_URL}/message"
+POSTAL_RAW_API_URL = f"{POSTAL_API_URL}/raw"
+
 
 async def get_user_from_email(email_address: str):
     try:

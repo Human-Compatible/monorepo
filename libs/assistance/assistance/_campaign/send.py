@@ -46,7 +46,7 @@ from assistance._progression import (
     set_progression_key,
 )
 from assistance._utilities import EMAIL_PATTERN
-
+from assistance._config import POSTAL_RAW_API_URL
 
 POSTAL_API_KEY = get_postal_api_key()
 THIRTY_SIX_HOURS = 36 * 60 * 60
@@ -175,8 +175,6 @@ async def _create_and_send_email_with_signature(
         "X-Server-API-Key": POSTAL_API_KEY,
     }
 
-    url = "https://postal.assistance.chat/api/v1/send/raw"
-
     postal_data = {
         "mail_from": mail_from,
         "rcpt_to": [user_email_address],
@@ -184,7 +182,7 @@ async def _create_and_send_email_with_signature(
     }
 
     return await _ctx.session.post(
-        url=url,
+        url=POSTAL_RAW_API_URL,
         headers=headers,
         data=json.dumps(postal_data),
     )

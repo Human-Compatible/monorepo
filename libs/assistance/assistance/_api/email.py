@@ -110,9 +110,9 @@ async def _react_to_email(email: Email):
 
         return
 
-    if "assistance.chat" in email["from"]:
+    if ROOT_DOMAIN in email["from"]:
         logging.info(
-            "Email is from an assistance.chat agent. Breaking loop. Doing nothing."
+            f"Email is from a {ROOT_DOMAIN} agent. Breaking loop. Doing nothing."
         )
         return
 

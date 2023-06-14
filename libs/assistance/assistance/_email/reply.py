@@ -18,6 +18,7 @@ from typing import Literal, TypedDict
 
 from assistance._types import Email
 from assistance._utilities import get_cleaned_email
+from assistance._config import ROOT_DOMAIN
 
 
 class ReplyData(TypedDict):
@@ -125,7 +126,7 @@ def get_all_user_emails(email: Email, extra: list[str] | None = None):
     ]
 
     no_assistance_chat_cc_addresses = [
-        item for item in no_overlap_cc_addresses if not "assistance.chat" in item
+        item for item in no_overlap_cc_addresses if not ROOT_DOMAIN in item
     ]
 
     if email["reply_to"] is not None:

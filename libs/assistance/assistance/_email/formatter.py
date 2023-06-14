@@ -23,7 +23,7 @@ import marko
 from mailparser_reply import EmailReplyParser
 
 from assistance import _ctx
-from assistance._config import SUPERVISION_SUBJECT_FLAG
+from assistance._config import SUPERVISION_SUBJECT_FLAG, POSTAL_RAW_API_URL
 from assistance._keys import get_postal_api_key
 from assistance._paths import SYNCED_JIMS_REPO
 from assistance._types import Email
@@ -79,8 +79,6 @@ async def handle_reply_formatter(email: Email):
         "X-Server-API-Key": POSTAL_API_KEY,
     }
 
-    url = "https://postal.assistance.chat/api/v1/send/raw"
-
     postal_data = {
         "mail_from": mail_from,
         "rcpt_to": [
@@ -92,7 +90,7 @@ async def handle_reply_formatter(email: Email):
     }
 
     postal_response = await _ctx.session.post(
-        url=url,
+        url=POSTAL_RAW_API_URL,
         headers=headers,
         data=json.dumps(postal_data),
     )

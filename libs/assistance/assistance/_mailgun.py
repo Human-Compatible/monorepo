@@ -14,17 +14,12 @@
 
 import json
 
-from assistance._logging import log_info
+from ._logging import log_info
 
 from . import _ctx
-from ._config import ROOT_DOMAIN
 from ._keys import get_postal_api_key
+from ._config import POSTAL_MESSAGE_API_URL
 
-EMAIL_SUBJECT = f"Your career.{ROOT_DOMAIN} access link"
-EMAIL_TEMPLATE = (
-    "Your personal access link, which is tied to your email is {access_link}"
-)
-LINK_TEMPLATE = "https://career.{domain}/?pwd={password}"
 
 POSTAL_API_KEY = get_postal_api_key()
 
@@ -35,15 +30,13 @@ async def send_email(scope: str, postal_data):
         "X-Server-API-Key": POSTAL_API_KEY,
     }
 
-    url = "https://postal.assistance.chat/api/v1/send/message"
-
     if "cc" in postal_data and postal_data["cc"] == "":
         del postal_data["cc"]
 
     log_info(scope, json.dumps(postal_data, indent=2))
 
     postal_response = await _ctx.session.post(
-        url=url,
+        url=POSTAL_MESSAGE_API_URL,
         headers=headers,
         data=json.dumps(postal_data),
     )

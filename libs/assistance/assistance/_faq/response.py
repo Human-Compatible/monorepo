@@ -174,7 +174,7 @@ async def write_and_send_email_response(
     subject_with_action_flag = f"{SUPERVISION_SUBJECT_FLAG} {subject}"
 
     formatting_reply_to = (
-        f'reply-formatter==={reply_to.replace("@", "==")}@assistance.chat'
+        f'reply-formatter==={reply_to.replace("@", "==")}@{ROOT_DOMAIN}'
     )
 
     postal_data = {
