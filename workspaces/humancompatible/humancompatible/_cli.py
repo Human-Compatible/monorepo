@@ -15,7 +15,15 @@
 # pylint: disable = import-outside-toplevel
 
 
+import logging
+
 import typer
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s.%(msecs)d %(levelname)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 app = typer.Typer()
 
@@ -25,3 +33,10 @@ def propagate():
     from ._propagate import main as _main
 
     _main()
+
+
+@app.command()
+def sync(message: str):
+    from ._git import sync as _sync
+
+    _sync(message)

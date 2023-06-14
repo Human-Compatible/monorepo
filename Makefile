@@ -23,4 +23,7 @@ test-isolated-%: .venv
 	poetry run pytest workspaces/$*
 
 propagate: .venv
-	poetry run python -m humancompatible
+	poetry run python -m humancompatible propagate
+
+sync: .venv
+	poetry run python -m humancompatible sync "$(m)"

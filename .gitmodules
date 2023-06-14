@@ -2,10 +2,6 @@
 	path = third-party/cal.com
 	url = ../cal.com.git
 	branch = human-compatible
-[submodule "third_party/lexicon"]
-	path = third-party/lexicon
-	url = ../lexicon.git
-	branch = human-compatible
 [submodule "private"]
 	path = private
 	url = ../private.git
