@@ -11,7 +11,7 @@ python = "~3.11"
 
 [tool.poetry.dependencies.assistance]
 path = "workspaces/assistance"
-extras = ["test"]
+extras = ["dev"]
 develop = true
 
 [tool.poetry.dependencies.humancompatible]

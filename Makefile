@@ -1,13 +1,14 @@
 PROJECTS := $(notdir $(wildcard workspaces/*))
 
 
-.clean-venv:
+.clean:
 	rm -rf .venv
 
 .venv:
 	poetry install --sync
 
-init: .clean-venv .venv
+init: .venv
+	poetry run pre-commit install
 
 test-%: .venv
 	poetry install --sync --with $*
