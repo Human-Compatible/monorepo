@@ -9,18 +9,16 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "~3.11"
 
-[tool.poetry.dependencies.assistance]
-path = "workspaces/assistance"
-extras = ["dev"]
-develop = true
+[tool.poetry.group.assistance.dependencies]
+assistance = { path = "workspaces/assistance", extras = [
+  "dev",
+], develop = true }
 
-[tool.poetry.dependencies.humancompatible]
-path = "workspaces/humancompatible"
-develop = true
+[tool.poetry.group.humancompatible.dependencies]
+humancompatible = { path = "workspaces/humancompatible", develop = true }
 
-[tool.poetry.dependencies.magicmatching]
-path = "workspaces/magicmatching"
-develop = true
+[tool.poetry.group.magicmatching.dependencies]
+magicmatching = { path = "workspaces/magicmatching", develop = true }
 
 [build-system]
 requires = ["poetry-core==1.1.0"]
