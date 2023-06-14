@@ -26,7 +26,7 @@ from assistance._email.reply import create_reply
 from assistance._email.thread import get_email_thread
 from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
-from assistance._mailgun import send_email
+from assistance._postal import send_email
 from assistance._types import Email
 from assistance._utilities import get_cleaned_email
 

@@ -25,8 +25,8 @@ from assistance._config import ROOT_DOMAIN
 from assistance._email.formatter import handle_reply_formatter
 from assistance._faq.response import write_and_send_email_response
 from assistance._logging import log_info
-from assistance._mailgun import send_email
 from assistance._paths import NEW_EMAILS, get_emails_path
+from assistance._postal import send_email
 from assistance._types import Email, RawEmail
 from assistance._utilities import get_cleaned_email, get_hash_digest
 
