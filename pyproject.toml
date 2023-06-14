@@ -18,6 +18,10 @@ develop = true
 path = "workspaces/humancompatible"
 develop = true
 
+[tool.poetry.dependencies.magicmatching]
+path = "workspaces/magicmatching"
+develop = true
+
 [build-system]
 requires = ["poetry-core==1.1.0"]
 build-backend = "poetry.core.masonry.api"

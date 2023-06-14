@@ -2,10 +2,7 @@
 name = "assistance"
 version = "0.1.1"
 description = ""
-authors = [
-  "Simon Biggs <simon@humancompatible.co>",
-  "Alex Carpenter <alex@humancompatible.co>",
-]
+authors = ["Simon Biggs <simon@humancompatible.co>"]
 license = "Apache-2.0"
 readme = "README.md"
 

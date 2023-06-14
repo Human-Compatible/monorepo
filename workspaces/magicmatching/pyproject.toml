@@ -1,19 +1,13 @@
 [tool.poetry]
-name = "humancompatible"
-version = "0.1.1"
+name = "magicmatching"
+version = "0.1.0"
 description = ""
-authors = ["Simon Biggs <simon@humancompatible.co>"]
+authors = []
 license = "Apache-2.0"
 readme = "README.md"
 
-[tool.poetry.scripts]
-hc = "humancompatible.__main__:main"
-
 [tool.poetry.dependencies]
 python = "~3.11"
-typer = "*"
-black = "*"
-tomlkit = "*"
 
 [build-system]
 requires = ["poetry-core==1.1.0"]

@@ -1360,6 +1360,20 @@ files = [
 ]
 
 [[package]]
+name = "magicmatching"
+version = "0.1.0"
+description = ""
+category = "main"
+optional = false
+python-versions = "~3.11"
+files = []
+develop = true
+
+[package.source]
+type = "directory"
+url = "workspaces/magicmatching"
+
+[[package]]
 name = "mail-parser-reply"
 version = "1.23"
 description = "📧 Email reply parser library for Python with multi-language support"
@@ -3431,4 +3445,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "665ec4aa217572987de22473b60269c45c58d066eecabfca3aeb200def1f04cb"
+content-hash = "d5b3668742fa39693c00b5a3a3c3fa99a63aee28b4a0e8e066f68f2439660915"
