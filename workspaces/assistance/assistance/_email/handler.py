@@ -15,6 +15,7 @@
 import json
 import logging
 import random
+import traceback
 from typing import Literal, cast
 
 from assistance import _ctx
@@ -32,27 +33,36 @@ async def handle_new_email(hash_digest: str, raw_email: RawEmail):
     """React to the new email, and once it completes without error, delete the pipeline file."""
 
     try:
-        email = await initial_parsing(raw_email)
-
-        if email["agent_domain"] != ROOT_DOMAIN:
-            logging.info(
-                f"Email is not from the root domain. Breaking loop. Doing nothing. Agent domain was: {email['agent_domain']}.",
-            )
-
-        else:
-            email_without_attachments = email.copy()
-            email_without_attachments["attachments"] = []
-
-            log_info(email["user_email"], _ctx.pp.pformat(email_without_attachments))
-
-            await _react_to_email(email)
+        await _case_hander(raw_email)
 
         pipeline_path = get_new_email_pipeline_path(hash_digest)
         pipeline_path.unlink()
 
-    except Exception as e:  # pylint: disable=broad-except
-        await _send_error_email(e, raw_email)
+    except Exception:  # pylint: disable=broad-except
+        exception_string = traceback.format_exc()
+        await _send_error_email(hash_digest, exception_string, raw_email)
         raise
+
+
+async def _case_hander(raw_email):
+    if "X-Mailgun-Sid" in raw_email:
+        logging.info("Email follows the mailgun API protocol. Ignoring.")
+        return
+
+    email = await initial_parsing(raw_email)
+
+    if email["agent_domain"] != ROOT_DOMAIN:
+        logging.info(
+            f"Email is not from the root domain. Breaking loop. Doing nothing. Agent domain was: {email['agent_domain']}.",
+        )
+        return
+
+    email_without_attachments = email.copy()
+    email_without_attachments["attachments"] = []
+
+    log_info(email["user_email"], _ctx.pp.pformat(email_without_attachments))
+
+    await _react_to_email(email)
 
 
 async def rerun():
@@ -101,15 +111,17 @@ def get_new_email_pipeline_path(hash_digest: str):
     return NEW_EMAILS / hash_digest
 
 
-async def _send_error_email(exception: Exception, raw_email: RawEmail):
+async def _send_error_email(
+    hash_digest: str, exception_string: str, raw_email: RawEmail
+):
     json_rep_of_email = get_json_representation_of_raw_email(raw_email)
 
     postal_data = {
         "from": "error-notification@assistance.chat",
-        "to": ["me@simonbiggs.net", "cameron.richardson@ac.edu.au"],
+        "to": ["me@simonbiggs.net", "pathways@jims.international"],
         "subject": "[ERROR NOTIFICATION]",
         "plain_body": (
-            f"When handling an email the following error occurred\n\n{exception}\n\nThe details of the email received were:\n\n{json_rep_of_email}"
+            f"When handling the email with hash {hash_digest} the following error occurred:\n\n{exception_string}\n\nThe details of the email received were:\n\n{json_rep_of_email}"
         ),
     }
 
