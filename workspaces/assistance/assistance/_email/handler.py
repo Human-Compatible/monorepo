@@ -32,11 +32,11 @@ async def handle_new_email(hash_digest: str, raw_email: RawEmail):
     """React to the new email, and once it completes without error, delete the pipeline file."""
 
     try:
-        email = await _initial_parsing(raw_email)
+        email = await initial_parsing(raw_email)
 
         if email["agent_domain"] != ROOT_DOMAIN:
             logging.info(
-                "Email is not from the root domain. Breaking loop. Doing nothing."
+                f"Email is not from the root domain. Breaking loop. Doing nothing. Agent domain was: {email['agent_domain']}.",
             )
 
         else:
@@ -143,7 +143,7 @@ async def _react_to_email(email: Email):
     return
 
 
-async def _initial_parsing(raw_email: RawEmail):
+async def initial_parsing(raw_email: RawEmail):
     intermediate_email_dict = dict(raw_email.copy())
 
     keys_to_replace_with_empty_string_for_none: list[

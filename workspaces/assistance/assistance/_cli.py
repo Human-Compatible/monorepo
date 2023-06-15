@@ -44,8 +44,18 @@ def tasker():
 
 @app.command()
 def rerun():
+    from assistance import _ctx
     from assistance._email.handler import rerun as _rerun
 
     loop = asyncio.get_event_loop()
 
+    _ctx.open_session()
     loop.run_until_complete(_rerun())
+
+
+@app.command()
+def faq():
+    from assistance._faq.tasker import run_faq_update
+
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(run_faq_update())

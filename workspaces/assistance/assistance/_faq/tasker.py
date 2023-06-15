@@ -18,8 +18,8 @@ import logging
 import aiocron
 import tomlkit
 
-from assistance._api.email import _initial_parsing
 from assistance._email.formatter import _get_reply_template
+from assistance._email.handler import initial_parsing
 from assistance._git import pull, push
 from assistance._paths import LOCAL_EMAIL_RECORD, SYNCED_JIMS_REPO, get_emails_path
 
@@ -27,6 +27,10 @@ IGNORE_EMAIL_STRINGS = ["Ready to Launch"]
 
 
 @aiocron.crontab("0 15 * * *")
+async def tasker_faq_update():
+    await run_faq_update()
+
+
 async def run_faq_update():
     logging.info("Running FAQ update")
 
@@ -68,7 +72,7 @@ async def _update_faq():
         path = get_emails_path(email_hash)
 
         with open(path) as f:
-            email = await _initial_parsing(json.load(f))
+            email = await initial_parsing(json.load(f))
 
         _subject, content = _get_reply_template(email)
 
