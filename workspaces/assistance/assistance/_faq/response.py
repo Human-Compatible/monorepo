@@ -53,8 +53,8 @@ PROMPT = textwrap.dedent(
         You are writing an email on behalf of Alex Carpenter.
         {first_name} is asking Alex questions about Jim's International
         Pathway Program. You are happy to help answer any questions that
-        {first_name} may have about the Jim's International
-        Pathway Program.
+        {first_name} may have about the Jim's International Pathway
+        Program.
 
         You have been provided with a list of the answers to a range of
         questions that {first_name}. You are to write an introduction
@@ -72,6 +72,10 @@ PROMPT = textwrap.dedent(
         addressing them.
 
         The name to sign the email with is "Alex Carpenter".
+
+        When writing your introduction and conclusion you may assume
+        that all of the questions were answered. When you leave a
+        question blank, Alex will fill it in for you before sending it.
 
         ## Your traits
 
@@ -106,16 +110,13 @@ PROMPT = textwrap.dedent(
 
         ---
 
-        Q: [Question 1]
-        A: [Answer 1]
+        Q: [Question 1] A: [Answer 1]
 
-        Q: [Question 2]
-        A: [Answer 2]
+        Q: [Question 2] A: [Answer 2]
 
         ...
 
-        Q: [Question N]
-        A: [Answer N]
+        Q: [Question N] A: [Answer N]
 
         ---
 
