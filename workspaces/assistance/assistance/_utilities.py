@@ -61,7 +61,7 @@ def get_cleaned_email(email_string: str):
     match = re.search(EMAIL_PATTERN, email_string)
 
     if match is None:
-        raise ValueError("Email address not found")
+        raise ValueError(f"Email address not found within the string: {email_string}")
 
     sender_domain = match.group(5)
     sender_username = match.group(1)

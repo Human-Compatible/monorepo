@@ -13,6 +13,7 @@
 # limitations under the License.
 
 
+import csv
 from html import escape
 from typing import Literal, TypedDict
 
@@ -116,7 +117,9 @@ def get_all_user_emails(email: Email, extra: list[str] | None = None):
     ]
 
     for key in keys_to_collect:
-        all_possible_cc_addresses += email[key].split(",")
+        all_possible_cc_addresses += _split_email_addresses_accounting_for_quotations(
+            email[key]
+        )
 
     stripped_cc_addresses = [
         get_cleaned_email(item) for item in all_possible_cc_addresses if item
@@ -137,3 +140,11 @@ def get_all_user_emails(email: Email, extra: list[str] | None = None):
     cc_addresses = list(set(no_assistance_chat_cc_addresses).difference(to_addresses))
 
     return to_addresses, cc_addresses
+
+
+def _split_email_addresses_accounting_for_quotations(csv_email_list: str):
+    return [
+        item
+        for item in (csv.reader([csv_email_list], delimiter=",", quotechar='"'))
+        if item != ["", ""]
+    ][0]
