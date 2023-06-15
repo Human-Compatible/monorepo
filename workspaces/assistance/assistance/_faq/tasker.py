@@ -76,7 +76,15 @@ async def _update_faq():
 
         _subject, content = _get_reply_template(email)
 
-        current_qna = [item for item in content.split("\n\n") if item.startswith("Q:")]
+        initial_current_qna = [
+            item for item in content.split("\n\n") if item.startswith("Q:")
+        ]
+        current_qna = []
+        for item in initial_current_qna:
+            items = item.split("Q:")
+            for question in items:
+                if question.strip():
+                    current_qna.append(f"Q: {question.strip()}")
 
         _append_qna_to_collected_questions(collected_questions, current_qna)
 
@@ -96,7 +104,16 @@ async def _update_faq():
 
 def _append_qna_to_collected_questions(collected_questions, current_qna):
     for item in current_qna:
-        question, answer = item.split("\nA: ")
+        try:
+            question, answer = item.split("\nA:")
+        except ValueError:
+            logging.info(
+                f"Value error while trying to split the following into Q and A: {item}"
+            )
+            raise
+
+        answer = answer.strip()
+
         question = question.strip().replace("\n", " ").removeprefix("Q: ")
 
         for ignore_string in IGNORE_EMAIL_STRINGS:
