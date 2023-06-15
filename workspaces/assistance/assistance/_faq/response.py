@@ -98,11 +98,7 @@ PROMPT = textwrap.dedent(
 
         [YOUR INTRODUCTION]
 
-        ---
-
         [THE QUESTIONS AND ANSWERS YOU HAVE BEEN PROVIDED]
-
-        ---
 
         [YOUR CONCLUSION]
 

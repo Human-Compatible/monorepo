@@ -71,16 +71,23 @@ async def _case_hander(raw_email):
 
 async def rerun(hash_digest: str | None = None):
     """Select a random hash from the new email pipeline, and then rerun the handler."""
+    if hash_digest:
+        await _single_rerun(hash_digest)
+        return
 
-    if hash_digest is None:
-        pipeline_paths = list(NEW_EMAILS.glob("*"))
-        if not pipeline_paths:
-            logging.info("No new emails to rerun.")
-            return
+    pipeline_paths = list(NEW_EMAILS.glob("*"))
+    if not pipeline_paths:
+        logging.info("No new emails to rerun.")
+        return
 
-        pipeline_path = random.choice(pipeline_paths)
+    random.shuffle(pipeline_paths)
+
+    for pipeline_path in pipeline_paths:
         hash_digest = pipeline_path.name
+        await _single_rerun(hash_digest)
 
+
+async def _single_rerun(hash_digest: str):
     emails_path = get_emails_path(hash_digest)
 
     with emails_path.open() as f:

@@ -21,7 +21,10 @@ from assistance._config import GPT_TURBO_SMALL_CONTEXT
 from assistance._embeddings import get_top_questions_and_answers
 from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
-from assistance._openai import get_completion_test_for_json_decoding
+from assistance._openai import (
+    get_completion_only,
+    get_completion_test_for_json_decoding,
+)
 
 from .extract_questions import QuestionAndContext
 from .sub_questions import get_sub_questions
@@ -152,6 +155,9 @@ RANK = textwrap.dedent(
 MAX_NUM_FAQ_RESPONSES = 15
 
 
+SEED = 42
+
+
 async def write_answer(
     scope: str,
     faq_data,
@@ -173,9 +179,9 @@ async def write_answer(
 
     coroutines = []
     for _ in range(5):
-        random.shuffle(faq_responses)
+        random.Random(SEED).shuffle(faq_responses)
         coroutines.append(
-            get_completion_test_for_json_decoding(
+            get_completion_only(
                 scope=scope,
                 prompt=PROMPT.format(
                     question=question,
