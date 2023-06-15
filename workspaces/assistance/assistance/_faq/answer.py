@@ -62,6 +62,11 @@ PROMPT = textwrap.dedent(
         Make sure to focus on the FAQ responses that have the highest
         "Importance Score".
 
+        When writing your response to the question do not include a
+        greeting or conclusion. The answer you write here will be
+        included along with other questions and answers within an email.
+        Do not write that email yourself. Only answer the question.
+
         ## Your traits
 
         - Show genuine empathy and interest in their situation
@@ -86,8 +91,7 @@ PROMPT = textwrap.dedent(
 
         ## Your answer
 
-        Question: {question}
-        Answer:
+        Question: {question} Answer:
     """
 ).strip()
 

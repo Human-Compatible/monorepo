@@ -96,11 +96,30 @@ PROMPT = textwrap.dedent(
 
         ## Required email format
 
-        [YOUR INTRODUCTION]
+        Email subject:
 
-        [THE QUESTIONS AND ANSWERS YOU HAVE BEEN PROVIDED]
+        {subject}
 
-        [YOUR CONCLUSION]
+        Email body:
+
+        [Email introduction]
+
+        ---
+
+        Q: [Question 1]
+        A: [Answer 1]
+
+        Q: [Question 2]
+        A: [Answer 2]
+
+        ...
+
+        Q: [Question N]
+        A: [Answer N]
+
+        ---
+
+        [Email conclusion]
 
         ## Your email response
 
