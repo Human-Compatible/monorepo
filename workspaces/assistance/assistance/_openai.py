@@ -36,9 +36,10 @@ from ._utilities import get_hash_digest
 
 
 async def get_completion_test_for_json_decoding(**kwargs) -> str:
+    original_prompt = kwargs["prompt"]
     response = None
 
-    for _ in range(5):
+    for i in range(5):
         response = await get_completion_only(**kwargs)
 
         try:
@@ -46,9 +47,7 @@ async def get_completion_test_for_json_decoding(**kwargs) -> str:
             return response
 
         except json.decoder.JSONDecodeError:
-            prompt = kwargs["prompt"]
-
-            new_prompt = f"When previously running this task you did not provide correct JSON. Your response was:\n{response}\n\nPlease ONLY provide valid JSON when undergoing the following task:\n{prompt}"
+            new_prompt = f"You have had {i} previous attempts at this task but you did not provide correct JSON.\n\nPlease ONLY provide valid JSON when undergoing the following task.\n\n{original_prompt}"
             kwargs["prompt"] = new_prompt
 
     assert isinstance(response, str)

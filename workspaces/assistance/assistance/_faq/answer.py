@@ -152,7 +152,6 @@ RANK = textwrap.dedent(
 ).strip()
 
 MAXIMUM_FAQS = 15
-
 SEED = 42
 
 
