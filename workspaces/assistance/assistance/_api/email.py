@@ -51,18 +51,7 @@ async def receive_email(request: Request):
 
 # TODO: Handle attachments
 async def _store_email(raw_email: RawEmail):
-    try:
-        email_to_store = json.dumps(raw_email, indent=2)
-    except TypeError:
-        json_encodable_items = {}
-        for key, item in raw_email.items():
-            try:
-                json.dumps(item)
-                json_encodable_items[key] = item
-            except TypeError:
-                json_encodable_items[key] = str(item)
-
-        email_to_store = json.dumps(json_encodable_items, indent=2)
+    email_to_store = _get_json_representation_of_raw_email(raw_email)
 
     hash_digest = get_hash_digest(email_to_store)
     emails_path = get_emails_path(hash_digest, create_parent=True)
@@ -77,6 +66,23 @@ async def _store_email(raw_email: RawEmail):
     return hash_digest
 
 
+def _get_json_representation_of_raw_email(raw_email: RawEmail):
+    try:
+        return json.dumps(raw_email, indent=2)
+    except TypeError:
+        pass
+
+    json_encodable_items = {}
+    for key, item in raw_email.items():
+        try:
+            json.dumps(item)
+            json_encodable_items[key] = item
+        except TypeError:
+            json_encodable_items[key] = str(item)
+
+    return json.dumps(json_encodable_items, indent=2)
+
+
 def _get_new_email_pipeline_path(hash_digest: str):
     return NEW_EMAILS / hash_digest
 
@@ -84,21 +90,43 @@ def _get_new_email_pipeline_path(hash_digest: str):
 async def _handle_new_email(hash_digest: str, raw_email: RawEmail):
     """React to the new email, and once it completes without error, delete the pipeline file."""
 
-    email = await _initial_parsing(raw_email)
+    try:
+        email = await _initial_parsing(raw_email)
 
-    if email["agent_domain"] != ROOT_DOMAIN:
-        logging.info("Email is not from the root domain. Breaking loop. Doing nothing.")
-        return
+        if email["agent_domain"] != ROOT_DOMAIN:
+            logging.info(
+                "Email is not from the root domain. Breaking loop. Doing nothing."
+            )
+            return
 
-    email_without_attachments = email.copy()
-    email_without_attachments["attachments"] = []
+        email_without_attachments = email.copy()
+        email_without_attachments["attachments"] = []
 
-    log_info(email["user_email"], _ctx.pp.pformat(email_without_attachments))
+        log_info(email["user_email"], _ctx.pp.pformat(email_without_attachments))
 
-    await _react_to_email(email)
+        await _react_to_email(email)
 
-    pipeline_path = _get_new_email_pipeline_path(hash_digest)
-    pipeline_path.unlink()
+        pipeline_path = _get_new_email_pipeline_path(hash_digest)
+        pipeline_path.unlink()
+
+    except Exception as e:  # pylint: disable=broad-except
+        await _send_error_email(e, raw_email)
+        raise
+
+
+async def _send_error_email(exception: Exception, raw_email: RawEmail):
+    json_rep_of_email = _get_json_representation_of_raw_email(raw_email)
+
+    postal_data = {
+        "from": "error-notification@assistance.chat",
+        "to": ["me@simonbiggs.net", "cameron.richardson@ac.edu.au"],
+        "subject": "[ERROR NOTIFICATION]",
+        "plain_body": (
+            f"When handling an email the following error occurred\n\n{exception}\n\nThe details of the email received were:\n\n{json_rep_of_email}"
+        ),
+    }
+
+    await send_email("handling error", postal_data)
 
 
 async def _react_to_email(email: Email):
