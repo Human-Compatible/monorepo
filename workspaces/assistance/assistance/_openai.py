@@ -35,6 +35,21 @@ from ._paths import get_completion_cache_path
 from ._utilities import get_hash_digest
 
 
+async def get_completion_test_for_json_decoding(**kwargs) -> str:
+    while True:
+        response = await get_completion_only(**kwargs)
+
+        try:
+            json.loads(response)
+            return response
+
+        except json.decoder.JSONDecodeError:
+            prompt = kwargs["prompt"]
+
+            new_prompt = f"When previously running this task you did not provide correct JSON. Your response was:\n{response}\n\nPlease ONLY provide valid JSON when undergoing the following task:\n{prompt}"
+            kwargs["prompt"] = new_prompt
+
+
 async def get_completion_only(**kwargs) -> str:
     response = await _completion_with_back_off(**kwargs)
 

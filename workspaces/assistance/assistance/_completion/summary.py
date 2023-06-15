@@ -19,7 +19,10 @@
 import textwrap
 
 from assistance._config import GPT_TURBO_SMALL_CONTEXT
-from assistance._openai import get_completion_only
+from assistance._openai import (
+    get_completion_only,
+    get_completion_test_for_json_decoding,
+)
 
 SUMMARY_KWARGS = {
     "engine": GPT_TURBO_SMALL_CONTEXT,
@@ -72,14 +75,20 @@ async def completion_on_thread_with_summary_fallback(
     email_thread: list[str],
     api_key: str,
     instructions: str | None = None,
+    test_json: bool = False,
     **kwargs,
 ):
+    if test_json:
+        completion_function_to_use = get_completion_test_for_json_decoding
+    else:
+        completion_function_to_use = get_completion_only
+
     while True:
         transcript = "\n\n".join(email_thread)
         prompt_with_transcript = prompt.replace("{transcript}", transcript)
 
         try:
-            response = await get_completion_only(
+            response = await completion_function_to_use(
                 scope=scope,
                 prompt=prompt_with_transcript,
                 api_key=api_key,

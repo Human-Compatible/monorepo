@@ -19,7 +19,7 @@ import textwrap
 from assistance._config import GPT_TURBO_SMALL_CONTEXT
 from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
-from assistance._openai import get_completion_only
+from assistance._openai import get_completion_test_for_json_decoding
 
 OPEN_AI_API_KEY = get_openai_api_key()
 
@@ -134,7 +134,7 @@ async def get_sub_questions(
 
     question_tree = [question]
 
-    response = await get_completion_only(
+    response = await get_completion_test_for_json_decoding(
         scope=scope,
         prompt=PROMPT.format(
             question=question, original_question=original_question, context=context

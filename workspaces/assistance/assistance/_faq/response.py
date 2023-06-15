@@ -162,21 +162,15 @@ async def write_and_send_email_response(email: Email):
         )
         return
 
-    questions_and_contexts = await extract_questions(email=email)
-
-    questions_without_answers = [
-        item
-        for item in questions_and_contexts
-        if (item["answer_again"] or not item["answer"]) and item["question"]
-    ]
-
-    first_name = await get_first_name(
-        scope=scope, email_thread=email_thread, their_email_address=reply_to
-    )
-
-    response = await _handle_questions(
-        scope, email, email_thread, first_name, questions_without_answers
-    )
+    if not email["plain_all_content"]:
+        response = "The email provided to the agent was empty"
+    else:
+        response = await _handle_email_body(
+            scope=scope,
+            email=email,
+            email_thread=email_thread,
+            reply_to=reply_to,
+        )
 
     log_info(scope, response)
 
@@ -200,6 +194,26 @@ async def write_and_send_email_response(email: Email):
     }
 
     await send_email(scope, postal_data)
+
+
+async def _handle_email_body(scope, email: Email, email_thread: list[str], reply_to):
+    questions_and_contexts = await extract_questions(email=email)
+
+    questions_without_answers = [
+        item
+        for item in questions_and_contexts
+        if (item["answer_again"] or not item["answer"]) and item["question"]
+    ]
+
+    first_name = await get_first_name(
+        scope=scope, email_thread=email_thread, their_email_address=reply_to
+    )
+
+    response = await _handle_questions(
+        scope, email, email_thread, first_name, questions_without_answers
+    )
+
+    return response
 
 
 async def _handle_questions(

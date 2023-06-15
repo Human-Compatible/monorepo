@@ -21,7 +21,7 @@ from assistance._config import GPT_TURBO_SMALL_CONTEXT
 from assistance._embeddings import get_top_questions_and_answers
 from assistance._keys import get_openai_api_key
 from assistance._logging import log_info
-from assistance._openai import get_completion_only
+from assistance._openai import get_completion_test_for_json_decoding
 
 from .extract_questions import QuestionAndContext
 from .sub_questions import get_sub_questions
@@ -175,7 +175,7 @@ async def write_answer(
     for _ in range(5):
         random.shuffle(faq_responses)
         coroutines.append(
-            get_completion_only(
+            get_completion_test_for_json_decoding(
                 scope=scope,
                 prompt=PROMPT.format(
                     question=question,
@@ -211,7 +211,7 @@ async def write_answer(
     for i, response in enumerate(question_responses):
         question_responses_with_id.append({"id": i, "answer": response})
 
-    response = await get_completion_only(
+    response = await get_completion_test_for_json_decoding(
         scope=scope,
         prompt=RANK.format(
             question=question,

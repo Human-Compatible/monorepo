@@ -138,6 +138,7 @@ async def extract_questions(email: Email) -> list[QuestionAndContext]:
 
     response, _ = await completion_on_thread_with_summary_fallback(
         scope=scope,
+        test_json=True,
         prompt=PROMPT,
         instructions="",
         email_thread=email_thread,
