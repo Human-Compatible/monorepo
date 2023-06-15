@@ -151,6 +151,7 @@ RANK = textwrap.dedent(
     """
 ).strip()
 
+MAXIMUM_FAQS = 15
 
 SEED = 42
 
@@ -171,6 +172,8 @@ async def write_answer(
     faq_responses = await get_top_questions_and_answers(
         openai_api_key=OPEN_AI_API_KEY, faq_data=faq_data, queries=questions
     )
+
+    faq_responses = faq_responses[0:MAXIMUM_FAQS]
 
     sorted_faq_responses = faq_responses.copy()
 

@@ -113,8 +113,8 @@ PROMPT = textwrap.dedent(
 ).strip()
 
 
-async def write_and_send_email_response(email: Email):
-    scope = email["user_email"]
+async def write_and_send_email_response(hash_digest: str, email: Email):
+    scope = f'{hash_digest} - {email["user_email"]}'
 
     email_thread = get_email_thread(email=email)
 

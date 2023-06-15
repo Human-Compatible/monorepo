@@ -33,7 +33,7 @@ async def handle_new_email(hash_digest: str, raw_email: RawEmail):
     """React to the new email, and once it completes without error, delete the pipeline file."""
 
     try:
-        await _case_hander(raw_email)
+        await _case_hander(hash_digest, raw_email)
 
         pipeline_path = get_new_email_pipeline_path(hash_digest)
         pipeline_path.unlink()
@@ -44,7 +44,7 @@ async def handle_new_email(hash_digest: str, raw_email: RawEmail):
         raise
 
 
-async def _case_hander(raw_email):
+async def _case_hander(hash_digest: str, raw_email: RawEmail):
     if ("X-Mailgun-Sid" in raw_email) or ("body-plain" in raw_email):
         logging.info("Email follows the mailgun API protocol. Ignoring.")
         return
@@ -66,7 +66,7 @@ async def _case_hander(raw_email):
 
     log_info(email["user_email"], _ctx.pp.pformat(email_without_attachments))
 
-    await _react_to_email(email)
+    await _react_to_email(hash_digest, email)
 
 
 async def rerun(hash_digest: str | None = None):
@@ -143,7 +143,7 @@ async def _send_error_email(
     await send_email("handling error", postal_data)
 
 
-async def _react_to_email(email: Email):
+async def _react_to_email(hash_digest: str, email: Email):
     if email["mail_from"] == "forwarding-noreply@google.com":
         await _respond_to_gmail_forward_request(email)
 
@@ -156,12 +156,12 @@ async def _react_to_email(email: Email):
         return
 
     if email["agent_name"] == "jims-ac-faq":
-        await write_and_send_email_response(email)
+        await write_and_send_email_response(hash_digest, email)
 
         return
 
     if email["agent_name"].startswith("reply-formatter"):
-        await handle_reply_formatter(email=email)
+        await handle_reply_formatter(email)
 
         return
 
