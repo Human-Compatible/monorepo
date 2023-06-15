@@ -181,8 +181,11 @@ async def write_answer(
         coroutines.append(
             _get_completion_with_faq_prune_fallback(
                 scope=scope,
-                question=question,
-                context=context,
+                prompt=PROMPT.format(
+                    question=question,
+                    context=context,
+                    faq_responses="{faq_responses}",
+                ),
                 faq_responses=faq_responses,
             )
         )
@@ -199,17 +202,16 @@ async def write_answer(
     for i, response in enumerate(question_responses):
         question_responses_with_id.append({"id": i, "answer": response})
 
-    response = await get_completion_test_for_json_decoding(
+    response = await _get_completion_with_faq_prune_fallback(
         scope=scope,
         prompt=RANK.format(
             question=question,
             context=context,
-            faq_responses="\n\n".join(sorted_faq_responses),
+            faq_responses="{faq_responses}",
             answers=json.dumps(question_responses_with_id, indent=2),
         ),
-        api_key=OPEN_AI_API_KEY,
-        # **MODEL_KWARGS_WITH_GPT_4,
-        **MODEL_KWARGS,
+        faq_responses=sorted_faq_responses,
+        check_json=True,
     )
 
     response_data = json.loads(response)
@@ -239,17 +241,18 @@ async def write_answer(
 
 
 async def _get_completion_with_faq_prune_fallback(
-    scope: str, question: str, context: str, faq_responses: list[str]
+    scope: str, prompt: str, faq_responses: list[str], check_json=False
 ):
+    if check_json:
+        completion_function = get_completion_test_for_json_decoding
+    else:
+        completion_function = get_completion_only
+
     while True:
         try:
-            return await get_completion_only(
+            return await completion_function(
                 scope=scope,
-                prompt=PROMPT.format(
-                    question=question,
-                    context=context,
-                    faq_responses="\n\n".join(faq_responses),
-                ),
+                prompt=prompt.replace("{faq_responses}", "\n\n".join(faq_responses)),
                 api_key=OPEN_AI_API_KEY,
                 **MODEL_KWARGS,
             )
