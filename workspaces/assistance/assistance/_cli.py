@@ -44,13 +44,20 @@ def tasker():
 
 @app.command()
 def rerun():
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(_rerun_with_session())
+
+
+async def _rerun_with_session():
     from assistance import _ctx
     from assistance._email.handler import rerun as _rerun
 
-    loop = asyncio.get_event_loop()
-
     _ctx.open_session()
-    loop.run_until_complete(_rerun())
+
+    try:
+        await _rerun()
+    finally:
+        await _ctx.close_session()
 
 
 @app.command()
