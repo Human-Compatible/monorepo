@@ -167,16 +167,8 @@ async def initial_parsing(raw_email: RawEmail):
     intermediate_email_dict = dict(raw_email.copy())
 
     keys_to_replace_with_empty_string_for_none: list[
-        Literal[
-            "cc",
-            "in_reply_to",
-            "replies_from_plain_body",
-        ]
-    ] = [
-        "cc",
-        "in_reply_to",
-        "replies_from_plain_body",
-    ]
+        Literal["cc", "in_reply_to", "replies_from_plain_body", "subject"]
+    ] = ["cc", "in_reply_to", "replies_from_plain_body", "subject"]
 
     for key in keys_to_replace_with_empty_string_for_none:
         if intermediate_email_dict[key] is None:
