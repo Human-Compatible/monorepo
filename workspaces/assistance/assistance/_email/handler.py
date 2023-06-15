@@ -49,6 +49,10 @@ async def _case_hander(raw_email):
         logging.info("Email follows the mailgun API protocol. Ignoring.")
         return
 
+    if raw_email["to"] is None:
+        logging.info("Email has no 'to' field. Ignoring.")
+        return
+
     email = await initial_parsing(raw_email)
 
     if email["agent_domain"] != ROOT_DOMAIN:
