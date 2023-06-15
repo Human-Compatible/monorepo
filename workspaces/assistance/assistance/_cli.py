@@ -16,6 +16,7 @@
 
 import asyncio
 import logging
+from typing import Annotated, Optional
 
 import typer
 
@@ -43,19 +44,19 @@ def tasker():
 
 
 @app.command()
-def rerun():
+def rerun(hash_digest: Annotated[Optional[str], typer.Argument()] = None):
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(_rerun_with_session())
+    loop.run_until_complete(_rerun_with_session(hash_digest))
 
 
-async def _rerun_with_session():
+async def _rerun_with_session(hash_digest: str | None):
     from assistance import _ctx
     from assistance._email.handler import rerun as _rerun
 
     _ctx.open_session()
 
     try:
-        await _rerun()
+        await _rerun(hash_digest)
     finally:
         await _ctx.close_session()
 
