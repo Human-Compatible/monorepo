@@ -47,7 +47,7 @@ COMPLETION_CACHE = LOCAL_RECORDS.joinpath("completion-cache")
 PIPELINES = STORE.joinpath("pipelines")
 
 EMAIL_PIPELINES = PIPELINES.joinpath("emails")
-NEW_EMAILS = EMAIL_PIPELINES.joinpath("new")
+NEW_EMAILS_PIPELINE = EMAIL_PIPELINES.joinpath("new")
 
 
 def get_emails_path(hash_digest: str, create_parent: bool = False):

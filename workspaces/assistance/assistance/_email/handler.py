@@ -23,7 +23,7 @@ from assistance._config import ROOT_DOMAIN
 from assistance._email.formatter import handle_reply_formatter
 from assistance._faq.response import write_and_send_email_response
 from assistance._logging import log_info
-from assistance._paths import NEW_EMAILS, get_emails_path
+from assistance._paths import NEW_EMAILS_PIPELINE, get_emails_path
 from assistance._postal import send_email
 from assistance._types import Email, RawEmail
 from assistance._utilities import get_cleaned_email
@@ -45,6 +45,10 @@ async def handle_new_email(hash_digest: str, raw_email: RawEmail):
 
 
 async def _case_hander(hash_digest: str, raw_email: RawEmail):
+    if not raw_email:
+        logging.info("Email is empty. Ignoring.")
+        return
+
     if ("X-Mailgun-Sid" in raw_email) or ("body-plain" in raw_email):
         logging.info("Email follows the mailgun API protocol. Ignoring.")
         return
@@ -75,7 +79,7 @@ async def rerun(hash_digest: str | None = None):
         await _single_rerun(hash_digest)
         return
 
-    pipeline_paths = list(NEW_EMAILS.glob("*"))
+    pipeline_paths = list(NEW_EMAILS_PIPELINE.glob("*"))
     if not pipeline_paths:
         logging.info("No new emails to rerun.")
         return
@@ -120,7 +124,7 @@ def get_json_representation_of_raw_email(raw_email: RawEmail):
 
 
 def get_new_email_pipeline_path(hash_digest: str):
-    return NEW_EMAILS / hash_digest
+    return NEW_EMAILS_PIPELINE / hash_digest
 
 
 async def _send_error_email(
