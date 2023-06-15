@@ -94,8 +94,12 @@ async def rerun(hash_digest: str | None = None):
 async def _single_rerun(hash_digest: str):
     emails_path = get_emails_path(hash_digest)
 
-    with emails_path.open() as f:
-        contents = f.read()
+    try:
+        with emails_path.open() as f:
+            contents = f.read()
+    except FileNotFoundError:
+        logging.info(f"Emails file not found. Ignoring. {emails_path}")
+        return
 
     try:
         raw_email = json.loads(contents)
