@@ -45,7 +45,7 @@ async def handle_new_email(hash_digest: str, raw_email: RawEmail):
 
 
 async def _case_hander(raw_email):
-    if "X-Mailgun-Sid" in raw_email:
+    if ("X-Mailgun-Sid" in raw_email) or ("body-plain" in raw_email):
         logging.info("Email follows the mailgun API protocol. Ignoring.")
         return
 
