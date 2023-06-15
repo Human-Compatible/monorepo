@@ -14,6 +14,7 @@
 
 import json
 import logging
+import random
 from typing import Literal, cast
 
 from assistance import _ctx
@@ -52,6 +53,23 @@ async def handle_new_email(hash_digest: str, raw_email: RawEmail):
     except Exception as e:  # pylint: disable=broad-except
         await _send_error_email(e, raw_email)
         raise
+
+
+async def rerun():
+    """Select a random hash from the new email pipeline, and then rerun the handler."""
+
+    pipeline_paths = list(NEW_EMAILS.glob("*"))
+    if not pipeline_paths:
+        logging.info("No new emails to rerun.")
+        return
+
+    pipeline_path = random.choice(pipeline_paths)
+    hash_digest = pipeline_path.name
+
+    with pipeline_path.open() as f:
+        raw_email = json.load(f)
+
+    await handle_new_email(hash_digest, raw_email)
 
 
 def get_json_representation_of_raw_email(raw_email: RawEmail):

@@ -14,6 +14,7 @@
 
 # pylint: disable = import-outside-toplevel
 
+import asyncio
 import logging
 
 import typer
@@ -35,19 +36,16 @@ def api():
 
 
 @app.command()
-def schema(path: str):
-    import json
-
-    from assistance._api.main import app as _app
-
-    openapi_schema = _app.openapi()
-
-    with open(path, "w", encoding="utf8") as f:
-        json.dump(openapi_schema, f, indent=2)
-
-
-@app.command()
 def tasker():
     from assistance._tasker import main as _main
 
     _main()
+
+
+@app.command()
+def rerun():
+    from assistance._email.handler import rerun as _rerun
+
+    loop = asyncio.get_event_loop()
+
+    loop.run_until_complete(_rerun())

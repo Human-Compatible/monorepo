@@ -14,14 +14,6 @@
 
 from typing import Literal, TypedDict
 
-
-class Article(TypedDict):
-    title: str
-    description: str
-    url: str
-    subject: str
-
-
 # Spam and Unknown are guessed here
 SpamStatus = Literal["NotSpam", "Spam", "Unknown"]
 

@@ -22,7 +22,7 @@ pp = pprint.PrettyPrinter(indent=2)
 
 
 def open_session():
-    global session
+    global session  # pylint: disable = global-statement
     session = aiohttp.ClientSession()
 
 

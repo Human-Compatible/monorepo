@@ -25,6 +25,7 @@ def items_to_list_string(items):
     return textwrap.indent("\n".join(items), "- ")
 
 
+# TODO: Use direct tokenisation rather than this approximation
 def get_approximate_allowed_remaining_words(prompt: str, max_tokens: int):
     words_in_prompt = get_number_of_words(prompt)
     num_words_used_by_tokens = max_tokens * WORDS_PER_TOKEN
