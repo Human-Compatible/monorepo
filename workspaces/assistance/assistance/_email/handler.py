@@ -119,7 +119,10 @@ async def _send_error_email(
 
     postal_data = {
         "from": "error-notification@assistance.chat",
-        "to": ["me@simonbiggs.net", "pathways@jims.international"],
+        "to": [
+            "me@simonbiggs.net",
+            # "pathways@jims.international"
+        ],
         "subject": "[ERROR NOTIFICATION]",
         "plain_body": (
             f"When handling the email with hash {hash_digest} the following error occurred:\n\n{exception_string}\n\nThe details of the email received were:\n\n{json_rep_of_email}"
