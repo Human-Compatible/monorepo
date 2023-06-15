@@ -22,7 +22,7 @@ from assistance._config import ROOT_DOMAIN
 from assistance._email.formatter import handle_reply_formatter
 from assistance._faq.response import write_and_send_email_response
 from assistance._logging import log_info
-from assistance._paths import NEW_EMAILS
+from assistance._paths import NEW_EMAILS, get_emails_path
 from assistance._postal import send_email
 from assistance._types import Email, RawEmail
 from assistance._utilities import get_cleaned_email
@@ -66,8 +66,16 @@ async def rerun():
     pipeline_path = random.choice(pipeline_paths)
     hash_digest = pipeline_path.name
 
-    with pipeline_path.open() as f:
-        raw_email = json.load(f)
+    emails_path = get_emails_path(hash_digest)
+
+    with emails_path.open() as f:
+        contents = f.read()
+
+    try:
+        raw_email = json.loads(contents)
+    except json.JSONDecodeError:
+        logging.error(f"Error decoding JSON: {contents}")
+        raise
 
     await handle_new_email(hash_digest, raw_email)
 
