@@ -152,9 +152,6 @@ RANK = textwrap.dedent(
 ).strip()
 
 
-MAX_NUM_FAQ_RESPONSES = 15
-
-
 SEED = 42
 
 
@@ -175,36 +172,21 @@ async def write_answer(
         openai_api_key=OPEN_AI_API_KEY, faq_data=faq_data, queries=questions
     )
 
-    sorted_faq_responses = faq_responses.copy()[0:MAX_NUM_FAQ_RESPONSES]
+    sorted_faq_responses = faq_responses.copy()
+
+    deterministic_random = random.Random(SEED)
 
     coroutines = []
     for _ in range(5):
-        random.Random(SEED).shuffle(faq_responses)
         coroutines.append(
-            get_completion_only(
+            _get_completion_with_faq_prune_fallback(
                 scope=scope,
-                prompt=PROMPT.format(
-                    question=question,
-                    context=context,
-                    faq_responses="\n\n".join(faq_responses),
-                ),
-                api_key=OPEN_AI_API_KEY,
-                **MODEL_KWARGS,
+                question=question,
+                context=context,
+                faq_responses=faq_responses,
             )
         )
-
-    # coroutines.append(
-    #     get_completion_only(
-    #         scope=scope,
-    #         prompt=PROMPT.format(
-    #             question=question,
-    #             context=context,
-    #             faq_responses="\n\n".join(sorted_faq_responses),
-    #         ),
-    #         api_key=OPEN_AI_API_KEY,
-    #         **MODEL_KWARGS_WITH_GPT_4,
-    #     )
-    # )
+        deterministic_random.shuffle(faq_responses)
 
     question_responses = await asyncio.gather(*coroutines)
 
@@ -254,3 +236,28 @@ async def write_answer(
     best_answer_id = response_data["id of the best answer"]
 
     return question_responses[int(best_answer_id)]
+
+
+async def _get_completion_with_faq_prune_fallback(
+    scope: str, question: str, context: str, faq_responses: list[str]
+):
+    while True:
+        try:
+            return await get_completion_only(
+                scope=scope,
+                prompt=PROMPT.format(
+                    question=question,
+                    context=context,
+                    faq_responses="\n\n".join(faq_responses),
+                ),
+                api_key=OPEN_AI_API_KEY,
+                **MODEL_KWARGS,
+            )
+        except ValueError as e:
+            if "Model maximum reached" not in str(e):
+                raise e
+
+            if len(faq_responses) == 0:
+                raise e
+
+            faq_responses = faq_responses[0:-1]
