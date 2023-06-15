@@ -18,7 +18,7 @@ import logging
 import aiocron
 import tomlkit
 
-from assistance._api.routers.email import _initial_parsing
+from assistance._api.email import _initial_parsing
 from assistance._email.formatter import _get_reply_template
 from assistance._git import pull, push
 from assistance._paths import LOCAL_EMAIL_RECORD, SYNCED_JIMS_REPO, get_emails_path

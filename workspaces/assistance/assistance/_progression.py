@@ -16,13 +16,13 @@ import time
 
 import aiofiles
 
-from assistance._config import ProgressionItem, get_file_based_mapping
+from assistance._config import get_file_based_mapping
 from assistance._paths import SYNCED_SENT_RECORDS
 
 
 def get_current_stage_and_task(
-    progression_cfg: list[ProgressionItem], complete_progression_keys: set[str]
-) -> ProgressionItem | None:
+    progression_cfg: list, complete_progression_keys: set[str]
+):
     for item in progression_cfg:
         if item["key"] in complete_progression_keys:
             continue
