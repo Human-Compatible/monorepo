@@ -193,6 +193,7 @@ async def initial_parsing(raw_email: RawEmail):
 
     intermediate_email_dict["plain_all_content"] = (
         intermediate_email_dict["plain_no_replies"]
+        + "\n\n"
         + intermediate_email_dict["plain_replies_only"]
     )
 

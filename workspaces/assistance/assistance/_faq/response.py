@@ -177,7 +177,7 @@ async def write_and_send_email_response(hash_digest: str, email: Email):
         )
         return
 
-    if not email["plain_all_content"]:
+    if not email["plain_all_content"].strip():
         response = "The email provided to the agent was empty"
     else:
         response = await _handle_email_body(
