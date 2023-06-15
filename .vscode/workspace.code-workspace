@@ -136,6 +136,7 @@
       "gmailjs",
       "googlealerts",
       "GSPR",
+      "gunicorn",
       "Hardpalate",
       "hashkey",
       "Hausdorff",

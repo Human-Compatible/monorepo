@@ -17,7 +17,7 @@ import pathlib
 
 LIB = pathlib.Path(__file__).parent
 
-STORE = pathlib.Path.home().joinpath(".assistance")
+STORE = pathlib.Path.home().joinpath(".human-compatible", "assistance")
 
 MONOREPO = LIB.parent.parent.parent
 PRIVATE = MONOREPO.joinpath("private")
@@ -48,8 +48,6 @@ PIPELINES = STORE.joinpath("pipelines")
 
 EMAIL_PIPELINES = PIPELINES.joinpath("emails")
 NEW_EMAILS = EMAIL_PIPELINES.joinpath("new")
-
-LOGS = STORE.joinpath("server", "logs")
 
 
 def get_emails_path(hash_digest: str, create_parent: bool = False):
