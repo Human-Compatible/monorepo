@@ -27,7 +27,7 @@ OPEN_AI_API_KEY = get_openai_api_key()
 
 MODEL_KWARGS = {
     "engine": GPT_SOTA,
-    "max_tokens": 2048,
+    "max_tokens": 4096,
     "temperature": 0,
     "top_p": 1,
     "frequency_penalty": 0,
