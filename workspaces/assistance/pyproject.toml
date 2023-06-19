@@ -38,6 +38,7 @@ pandas = "*"
 GitPython = "*"
 tomlkit = "*"
 openpyxl = "*"
+html2text = "*"
 
 autoflake = { version = "*", optional = true }     # extras = ["dev"]
 bandit = { version = "*", optional = true }        # extras = ["dev"]

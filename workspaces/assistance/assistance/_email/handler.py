@@ -18,6 +18,8 @@ import random
 import traceback
 from typing import Literal, cast
 
+import html2text
+
 from assistance import _ctx
 from assistance._config import ROOT_DOMAIN
 from assistance._email.formatter import handle_reply_formatter
@@ -199,11 +201,16 @@ async def initial_parsing(raw_email: RawEmail):
     del intermediate_email_dict["plain_body"]
     del intermediate_email_dict["replies_from_plain_body"]
 
-    intermediate_email_dict["plain_all_content"] = (
-        intermediate_email_dict["plain_no_replies"]
-        + "\n\n"
-        + intermediate_email_dict["plain_replies_only"]
-    )
+    if intermediate_email_dict["html_body"]:
+        intermediate_email_dict["plain_all_content"] = html2text.html2text(
+            str(intermediate_email_dict["html_body"])
+        )
+    else:
+        intermediate_email_dict["plain_all_content"] = (
+            intermediate_email_dict["plain_no_replies"]
+            + "\n\n"
+            + intermediate_email_dict["plain_replies_only"]
+        )
 
     to = str(intermediate_email_dict["to"])
     rcpt_to = str(intermediate_email_dict["rcpt_to"])

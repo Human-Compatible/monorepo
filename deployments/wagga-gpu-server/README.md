@@ -31,5 +31,5 @@ sudo supervisorctl update
 ```
 
 ```bash
-sudo supervisorctl status prose-guild-of-entrepreneurs
+sudo supervisorctl status assistance
 ```
