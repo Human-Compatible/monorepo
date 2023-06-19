@@ -19,7 +19,6 @@ import traceback
 from typing import Literal, cast
 
 import html2text
-from mailparser_reply import EmailReplyParser
 
 from assistance import _ctx
 from assistance._config import ROOT_DOMAIN
