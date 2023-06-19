@@ -19,6 +19,7 @@ import traceback
 from typing import Literal, cast
 
 import html2text
+from mailparser_reply import EmailReplyParser
 
 from assistance import _ctx
 from assistance._config import ROOT_DOMAIN
@@ -191,26 +192,19 @@ async def initial_parsing(raw_email: RawEmail):
         if intermediate_email_dict[key] is None:
             intermediate_email_dict[key] = ""
 
-    intermediate_email_dict["plain_no_replies"] = str(
-        intermediate_email_dict["plain_body"]
-    )
-    intermediate_email_dict["plain_replies_only"] = str(
-        intermediate_email_dict["replies_from_plain_body"]
-    )
-
-    del intermediate_email_dict["plain_body"]
-    del intermediate_email_dict["replies_from_plain_body"]
-
     if intermediate_email_dict["html_body"]:
         intermediate_email_dict["plain_all_content"] = html2text.html2text(
             str(intermediate_email_dict["html_body"])
         )
     else:
         intermediate_email_dict["plain_all_content"] = (
-            intermediate_email_dict["plain_no_replies"]
+            str(intermediate_email_dict["plain_body"])
             + "\n\n"
-            + intermediate_email_dict["plain_replies_only"]
+            + str(intermediate_email_dict["replies_from_plain_body"])
         )
+
+    del intermediate_email_dict["plain_body"]
+    del intermediate_email_dict["replies_from_plain_body"]
 
     to = str(intermediate_email_dict["to"])
     rcpt_to = str(intermediate_email_dict["rcpt_to"])
@@ -241,11 +235,14 @@ VERIFICATION_TOKEN_BASE_ALTERNATIVE = "https://mail-settings.google.com/mail/vf-
 
 
 async def _respond_to_gmail_forward_request(email: Email):
+    parser = EmailReplyParser()
+    email_message = parser.read(email["plain_all_content"])
+
     forwarding_email = email["to"]
 
     found_token = None
 
-    for item in email["plain_no_replies"].splitlines():
+    for item in email_message.replies[0].content.splitlines():
         log_info(email["user_email"], item)
 
         for option in [VERIFICATION_TOKEN_BASE, VERIFICATION_TOKEN_BASE_ALTERNATIVE]:
@@ -257,7 +254,7 @@ async def _respond_to_gmail_forward_request(email: Email):
 
     await _post_gmail_forwarding_verification(found_token)
 
-    user_email = email["plain_no_replies"].split(" ")[0]
+    user_email = email_message.replies[0].content.split(" ")[0]
     log_info(email["user_email"], f"User email: {user_email}")
 
     mailgun_data = {

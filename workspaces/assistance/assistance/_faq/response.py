@@ -146,7 +146,7 @@ async def write_and_send_email_response(hash_digest: str, email: Email):
         second_last_message_lower = email_thread[-2].lower()
 
         first_reply_line = second_last_message_lower.splitlines()[0]
-        if first_reply_line.startswith("From: "):
+        if first_reply_line.startswith("from: "):
             text_to_extract_reply_to_from = first_reply_line
 
         else:
