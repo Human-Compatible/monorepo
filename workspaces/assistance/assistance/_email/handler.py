@@ -232,14 +232,11 @@ VERIFICATION_TOKEN_BASE_ALTERNATIVE = "https://mail-settings.google.com/mail/vf-
 
 
 async def _respond_to_gmail_forward_request(email: Email):
-    parser = EmailReplyParser()
-    email_message = parser.read(email["plain_all_content"])
-
     forwarding_email = email["to"]
 
     found_token = None
 
-    for item in email_message.replies[0].content.splitlines():
+    for item in email["plain_all_content"].splitlines():
         log_info(email["user_email"], item)
 
         for option in [VERIFICATION_TOKEN_BASE, VERIFICATION_TOKEN_BASE_ALTERNATIVE]:
@@ -251,7 +248,7 @@ async def _respond_to_gmail_forward_request(email: Email):
 
     await _post_gmail_forwarding_verification(found_token)
 
-    user_email = email_message.replies[0].content.split(" ")[0]
+    user_email = email["plain_all_content"].split(" ")[0]
     log_info(email["user_email"], f"User email: {user_email}")
 
     mailgun_data = {
