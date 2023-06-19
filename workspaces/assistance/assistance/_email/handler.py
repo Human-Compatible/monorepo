@@ -56,7 +56,7 @@ async def _case_hander(hash_digest: str, raw_email: RawEmail):
         logging.info("Email follows the mailgun API protocol. Ignoring.")
         return
 
-    if raw_email["to"] is None:
+    if "to" not in raw_email or raw_email["to"] is None:
         logging.info("Email has no 'to' field. Ignoring.")
         return
 

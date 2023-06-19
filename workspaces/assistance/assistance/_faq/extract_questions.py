@@ -64,8 +64,11 @@ PROMPT = textwrap.dedent(
         answered then provide the answer within the "extracted answer"
         field.
 
-        If the question has not been answered yet, leave the "extracted answer"
-        field blank with an empty string ("").
+        If the question has not been answered yet, leave the "extracted
+        answer" field blank with an empty string ("").
+
+        If there are no questions within the email then the correct JSON
+        response is to provide only an empty list ([]).
 
         ## The email transcript
 
