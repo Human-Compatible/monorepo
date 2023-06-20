@@ -39,14 +39,17 @@ PROMPT = textwrap.dedent(
     """
         # Extraction of Questions about Jim's International Pathway Program
 
-        You have been provided with an email transcript where a range
-        of questions about the Jim's International Pathway Program and
-        its application process have been asked.
+        You have been provided with an email transcript where a range of
+        questions about the Jim's International Pathway Program and its
+        application process have been asked.
 
         It is your job to extract a full and complete list of all of the
         questions, queries, as well as any requests for information that
-        are within the email transcript that are related to the program
-        or its application.
+        are within the email transcript that have been asked by the
+        sender using the email address of {email_address}.
+
+        DO NOT include questions that have been asked by the sender
+        using the address of pathways@jims.international.
 
         Make sure to include any relevant contextual information from
         the email transcript around why the user is asking the question.
@@ -142,7 +145,10 @@ async def extract_questions(email: Email) -> list[QuestionAndContext]:
     response, _ = await completion_on_thread_with_summary_fallback(
         scope=scope,
         test_json=True,
-        prompt=PROMPT,
+        prompt=PROMPT.format(
+            transcript="{transcript}",
+            email_address=email["user_email"],
+        ),
         instructions="",
         email_thread=email_thread,
         api_key=OPEN_AI_API_KEY,
