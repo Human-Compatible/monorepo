@@ -46,10 +46,10 @@ PROMPT = textwrap.dedent(
         It is your job to extract a full and complete list of all of the
         questions, queries, as well as any requests for information that
         are within the email transcript that have been asked by the
-        sender using the email address of {email_address}.
+        sender that used the email address of {email_address}.
 
         DO NOT include questions that have been asked by the sender
-        using the address of pathways@jims.international.
+        that used the address of pathways@jims.international.
 
         Make sure to include any relevant contextual information from
         the email transcript around why the user is asking the question.

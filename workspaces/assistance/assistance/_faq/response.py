@@ -155,6 +155,10 @@ async def write_and_send_email_response(hash_digest: str, email: Email):
                     "forwarded message"
                 )[-1]
 
+                text_to_extract_reply_to_from = get_cleaned_email(
+                    text_to_extract_reply_to_from
+                )
+
             except ValueError:
                 text_to_extract_reply_to_from = email["from"]
     else:
