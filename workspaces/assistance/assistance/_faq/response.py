@@ -215,7 +215,7 @@ async def write_and_send_email_response(hash_digest: str, email: Email):
 
 
 async def _handle_email_body(scope, email: Email, email_thread: list[str], reply_to):
-    questions_and_contexts = await extract_questions(email=email)
+    questions_and_contexts = await extract_questions(email=email, reply_to=reply_to)
 
     questions_without_answers = [
         item

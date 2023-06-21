@@ -80,7 +80,7 @@ PROMPT = textwrap.dedent(
         ## Required JSON format
 
         [
-            {{
+            {
                 "think step by step for question and its context": "<step by step reasoning>",
                 "question": "<first question>",
                 "context": "<any relevant question context from the email transcript>",
@@ -88,9 +88,11 @@ PROMPT = textwrap.dedent(
                 "extracted answer": "<The answer given in the transcript>",
                 "think step by step for verification questions": "<step by step reasoning>",
                 "has the user's question been answered?": <true or false>,
-                "was this question asked after the given answer?": <true or false>
-            }},
-            {{
+                "was this question asked after the given answer?": <true or false>,
+                "was this question originally asked by {email_address}?": <true or false>,
+                "was this question originally asked by pathways@jims.international?": <true or false>
+            },
+            {
                 "think step by step for question and its context": "<step by step reasoning>",
                 "question": "<first question>",
                 "context": "<any relevant question context from the email transcript>",
@@ -98,10 +100,12 @@ PROMPT = textwrap.dedent(
                 "extracted answer": "<The answer given in the transcript>",
                 "think step by step for verification questions": "<step by step reasoning>",
                 "has the user's question been answered?": <true or false>,
-                "was this question asked after the given answer?": <true or false>
-            }},
+                "was this question asked after the given answer?": <true or false>,
+                "was this question originally asked by {email_address}?": <true or false>,
+                "was this question originally asked by pathways@jims.international?": <true or false>
+            },
             ...
-            {{
+            {
                 "think step by step for question and its context": "<step by step reasoning>",
                 "question": "<first question>",
                 "context": "<any relevant question context from the email transcript>",
@@ -109,8 +113,11 @@ PROMPT = textwrap.dedent(
                 "extracted answer": "<The answer given in the transcript>",
                 "think step by step for verification questions": "<step by step reasoning>",
                 "has the user's question been answered?": <true or false>,
-                "was this question asked after the given answer?": <true or false>
-            }}
+                "was this question asked after the given answer?": <true or false>,
+                "was this question originally asked by {email_address}?": <true or false>,
+                "was this question originally asked by pathways@jims.international?": <true or false>
+
+            }
         ]
 
         ## Your JSON response (ONLY respond with JSON, nothing else)
@@ -135,7 +142,7 @@ class QuestionAndContext(TypedDict):
     answer_again: bool
 
 
-async def extract_questions(email: Email) -> list[QuestionAndContext]:
+async def extract_questions(email: Email, reply_to: str) -> list[QuestionAndContext]:
     scope = email["user_email"]
 
     email_thread = get_email_thread(email)
@@ -145,10 +152,7 @@ async def extract_questions(email: Email) -> list[QuestionAndContext]:
     response, _ = await completion_on_thread_with_summary_fallback(
         scope=scope,
         test_json=True,
-        prompt=PROMPT.format(
-            transcript="{transcript}",
-            email_address=email["user_email"],
-        ),
+        prompt=PROMPT.replace("{email_address}", reply_to),
         instructions="",
         email_thread=email_thread,
         api_key=OPEN_AI_API_KEY,
@@ -159,14 +163,29 @@ async def extract_questions(email: Email) -> list[QuestionAndContext]:
 
     questions = json.loads(response)
 
+    question_origin_template = "was this question originally asked by {email}?"
+
     for question in questions:
         question["answer"] = question["extracted answer"]
         del question["extracted answer"]
 
+        question_user_origin_key = question_origin_template.format(email=reply_to)
+        question_agent_origin_key = question_origin_template.format(
+            email="pathways@jims.international"
+        )
+        question_was_from_user = (
+            question[question_user_origin_key]
+            and not question[question_agent_origin_key]
+        )
+
+        del question[question_user_origin_key]
+        del question[question_agent_origin_key]
+
         question["answer_again"] = (
             not question["has the user's question been answered?"]
             or question["was this question asked after the given answer?"]
-        )
+        ) and question_was_from_user
+
         del question["has the user's question been answered?"]
         del question["was this question asked after the given answer?"]
 

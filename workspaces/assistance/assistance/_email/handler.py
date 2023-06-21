@@ -31,7 +31,9 @@ from assistance._types import Email, RawEmail
 from assistance._utilities import get_cleaned_email
 
 
-async def handle_new_email(hash_digest: str, raw_email: RawEmail):
+async def handle_new_email(
+    hash_digest: str, raw_email: RawEmail, send_email_on_error=True
+):
     """React to the new email, and once it completes without error, delete the pipeline file."""
 
     try:
@@ -42,7 +44,10 @@ async def handle_new_email(hash_digest: str, raw_email: RawEmail):
 
     except Exception:  # pylint: disable=broad-except
         exception_string = traceback.format_exc()
-        await _send_error_email(hash_digest, exception_string, raw_email)
+
+        if send_email_on_error:
+            await _send_error_email(hash_digest, exception_string, raw_email)
+
         raise
 
 
@@ -109,7 +114,7 @@ async def _single_rerun(hash_digest: str):
         logging.error(f"Error decoding JSON: {contents}")
         raise
 
-    await handle_new_email(hash_digest, raw_email)
+    await handle_new_email(hash_digest, raw_email, send_email_on_error=False)
 
 
 def get_json_representation_of_raw_email(raw_email: RawEmail):
