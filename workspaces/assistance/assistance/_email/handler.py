@@ -204,6 +204,10 @@ async def initial_parsing(raw_email: RawEmail):
             + str(intermediate_email_dict["replies_from_plain_body"])
         )
 
+    intermediate_email_dict["plain_all_content"] = intermediate_email_dict[
+        "plain_all_content"
+    ].replace("\\---", "---")
+
     del intermediate_email_dict["plain_body"]
     del intermediate_email_dict["replies_from_plain_body"]
 
