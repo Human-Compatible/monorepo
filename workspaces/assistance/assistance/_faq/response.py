@@ -110,13 +110,16 @@ PROMPT = textwrap.dedent(
 
         ---
 
-        Q: [Question 1] A: [Answer 1]
+        Q: [Question 1]
+        A: [Answer 1]
 
-        Q: [Question 2] A: [Answer 2]
+        Q: [Question 2]
+        A: [Answer 2]
 
         ...
 
-        Q: [Question N] A: [Answer N]
+        Q: [Question N]
+        A: [Answer N]
 
         ---
 
