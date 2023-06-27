@@ -1,0 +1,35 @@
+en:
+  site_settings:
+    magicmatching_enabled: "Enable Magic Matching"
+    magicmatching_automatching_enabled: "Enable automatic matching using Magic Matching"
+    magicmatching_token: "Enter your bot TOKEN from Discord here"
+    magicmatching_admin_channel_id: "The id of your admin text channel on Discord"
+    magicmatching_admin_role_id: "The id of your admin role on Discord for which commands are permitted"
+    magicmatching_announcement_channel_id: "The id of your Discord announcement channel"
+    magicmatching_discourse_announcement_topic_id: "The id of your Discourse Announcement Topic (if discord auto channel sync is enabled and matching Category found this is suppressed)"
+    magicmatching_auto_channel_sync: "Enable chat sync on identically named channels/Categories (takes precedence over Discourse Announcement Topic)"
+    magicmatching_message_copy_topic_size_limit: "Message history copy: number of Discord messages per Discourse Topic"
+    magicmatching_post_announcement_categories: "Announce new Posts in here within the announcements channel"
+    magicmatching_topic_announcement_categories: "Announce new Topics in here within the announcements channel"
+    magicmatching_rate_limit_delay: "The delay in seconds between sending commands to Discord so we don't annihilate rate limits"
+  magicmatching:
+    discord_events:
+      auto_message_copy:
+        default_topic_title: "Discord #%{channel_name} messages"
+    commands:
+      rate_limit_breached: "Hold on cow(girl/boy/person), rate limit hit!"
+      no_matching_category: "No matching Category in Discourse!"
+      disccopy:
+        description: "Copy across message history to Category of same name"
+        discourse_topic_title: "#%{channel} messages from Discord"
+        no_category_specified: "No target Category specified, so attempting to use current channel name to match a Discourse Category."
+        success:
+          found_matching_discourse_category: "SUCCESS: Found matching Discourse Category"
+          found_matching_discourse_topic: "SUCCESS: Found matching Discourse Topic"
+          final_outcome: "SUCCESS: Copied over %{count} past messages to Discourse!"
+        error:
+          unable_to_find_discourse_category: "ERROR: Unable to find matching Discourse Category, aborting command!"
+          unable_to_find_discourse_topic: "ERROR: Unable to find matching Discourse Topic in target Category, will create new!"
+          unable_to_determine_topic_id: "ERROR: Unable to determine a suitable Topic Id for Discourse!"
+      disckick:
+        description: "Block users whose trust level is below a certain integer on discourse"

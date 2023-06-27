@@ -1,0 +1,41 @@
+plugins:
+  magicmatching_enabled:
+    default: false
+  magicmatching_automatching_enabled:
+    default: true
+    client: true
+  magicmatching_api_url:
+     default: 'http://192.168.1.10:54321/functions/v1'
+     client: false
+  magicmatching_api_token:
+     default: ''
+     client: false
+  magicmatching_admin_channel_id:
+    default: ''
+    client: false
+  magicmatching_admin_role_id:
+    default: ''
+    client: false
+  magicmatching_announcement_channel_id:
+    default: ''
+    client: false
+  magicmatching_discourse_announcement_topic_id:
+    default: ''
+    client: false
+  magicmatching_post_announcement_categories:
+    client: false
+    default: ''
+    type: category_list
+  magicmatching_topic_announcement_categories:
+    client: false
+    default: ''
+    type: category_list
+  magicmatching_auto_channel_sync:
+    default: false
+    client: false
+  magicmatching_message_copy_topic_size_limit:
+    default: 100
+    client: false
+  magicmatching_rate_limit_delay:
+    default: 2
+    client: false
