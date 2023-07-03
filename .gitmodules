@@ -5,3 +5,7 @@
 [submodule "private"]
 	path = private
 	url = ../private.git
+[submodule "third-party/lexicon"]
+	path = third-party/lexicon
+	url = git@github.com:Human-Compatible/lexicon
+	branch = human-compatible
