@@ -1,5 +1,9 @@
 # Human Compatible
 
+Bruces vision and mission statement below. See https://github.com/Human-Compatible/monorepo/commit/bdec598f6e7b8ee7bf8719afaba7bfc2aa446ab2 for @SimonBiggs previous iteration.
+
+---
+
 We believe that modern AI and the race to achieve artificial general intelligence (AGI) is ushering in an unprecedented paradigm shift for which humanity is utterly unprepared.
 
 Optimistically we envision a world where AI can help cure cancer, mitigate climate change, ensure food for all, or enable us to reach for the stars.
