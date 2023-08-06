@@ -1,6 +1,6 @@
 # Human Compatible
 
-Below is Bruce's vision and mission statement for Human Compatible. See https://github.com/Human-Compatible/monorepo/blob/bdec598f6e7b8ee7bf8719afaba7bfc2aa446ab2/README.md for @SimonBiggs previous iteration.
+Below is Bruce's vision and mission statement for Human Compatible. See https://github.com/Human-Compatible/monorepo/blob/bdec598f6e7b8ee7bf8719afaba7bfc2aa446ab2/README.md for @SimonBiggs' previous iteration.
 
 ---
 
