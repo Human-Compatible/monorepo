@@ -110,7 +110,8 @@ def _append_qna_to_collected_questions(collected_questions, current_qna):
             logging.info(
                 f"Value error while trying to split the following into Q and A: {item}"
             )
-            raise
+            # raise
+            continue
 
         answer = answer.strip()
 
