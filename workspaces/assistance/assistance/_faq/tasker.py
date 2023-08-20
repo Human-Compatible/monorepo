@@ -101,19 +101,16 @@ async def _update_faq():
 
         _append_qna_to_collected_questions(collected_questions, current_qna)
 
-    data_for_saving = {
-        "update-cut-off-date": cut_off,
-        "items": [
-            {
-                "question": key,
-                "answer": tomlkit.string(f"\n{item.strip()}\n", multiline=True),
-            }
-            for key, item in collected_questions.items()
-        ],
-    }
+    faq_data["items"] = [
+        {
+            "question": key,
+            "answer": tomlkit.string(f"\n{item.strip()}\n", multiline=True),
+        }
+        for key, item in collected_questions.items()
+    ]
 
     with open(faq_path, "w") as f:
-        tomlkit.dump(data_for_saving, f)
+        tomlkit.dump(faq_data, f, sort_keys=False)
 
 
 def _append_qna_to_collected_questions(collected_questions, current_qna):
