@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import datetime
 import json
 import logging
+import time
 
 import aiocron
 import tomlkit
@@ -51,13 +53,21 @@ async def _update_faq():
         for item in faq_data["items"]  # type: ignore
     }
 
+    cut_off = faq_data["update-cut-off-date"]
+
+    update_cut_off = datetime.datetime(
+        cut_off["year"], cut_off["month"], cut_off["day"]  # type: ignore
+    )
+
+    update_cut_off_timestamp = time.mktime(update_cut_off.timetuple())
+
     receiver = {}
 
     for path in LOCAL_EMAIL_RECORD.glob("*/*/*.json"):
         with open(path) as f:
             try:
                 receiver[path.stem] = json.load(f)["rcpt_to"]
-            except:
+            except KeyError:
                 pass
 
     email_to_match = "reply-formatter"
@@ -73,6 +83,9 @@ async def _update_faq():
 
         with open(path) as f:
             email = await initial_parsing(json.load(f))
+
+        if email["timestamp"] < update_cut_off_timestamp:
+            continue
 
         _subject, content = _get_reply_template(email)
 
