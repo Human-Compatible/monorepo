@@ -287,6 +287,17 @@ async def get_email_segments_and_name_lookup():
     name_lookup["alex.carpenter@ac.edu.au"] = "Alex Carpenter"
     name_lookup["cameron.richardson@ac.edu.au"] = "Cameron Richardson"
 
+    email_record = []
+    for email in all_eoi_emails.difference(unsubscribe_emails):
+        email_record.append(
+            {
+                "name": name_lookup[email.lower()],
+                "email": email,
+            }
+        )
+
+    pd.DataFrame(email_record).to_csv(SYNCED_JIMS_REPO / "email_export.csv")
+
     return (
         all_eoi_emails,
         emails_to_remove,
